@@ -1,0 +1,42 @@
+{
+    "name": "juliangut/spiral",
+    "description": "Spiral: PSR7 aware cURL client",
+    "keywords": [
+        "psr7",
+        "curl",
+        "request",
+        "response"
+    ],
+    "homepage": "http://github.com/juliangut/spiral",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Julián Gutiérrez",
+            "email": "juliangut@gmail.com",
+            "homepage": "http://juliangut.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "lib-curl": "*",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.0",
+        "squizlabs/php_codesniffer": "~2.3",
+        "phpmd/phpmd": "~2.2",
+        "sebastian/phpcpd": "~2.0",
+        "phly/http": "^0.14.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jgut\\Spiral\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jgut\\Spiral\\Tests\\": "tests/Spiral/"
+        }
+    }
+}
