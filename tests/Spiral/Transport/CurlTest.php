@@ -130,15 +130,15 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      * @param string $method
      * @param string $shorthand
      */
-    public function testRequestMethods($method, $shorthand)
+    public function testRequestMethods($method, $shorthand, $expectedCode)
     {
         $transport = Curl::createFromDefaults();
 
         $transport->request($method, 'http://www.linuxfoundation.org');
-        $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         call_user_func([$transport, $shorthand], 'http://www.linuxfoundation.org');
-        $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
     }
@@ -151,13 +151,13 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function methodProvider()
     {
         return [
-            [Transport::METHOD_OPTIONS, 'options'],
-            [Transport::METHOD_HEAD, 'head'],
-            [Transport::METHOD_GET, 'get'],
-            [Transport::METHOD_POST, 'post'],
-            [Transport::METHOD_PUT, 'put'],
-            [Transport::METHOD_DELETE, 'delete'],
-            [Transport::METHOD_PATCH, 'patch'],
+            [Transport::METHOD_OPTIONS, 'options', 200],
+            [Transport::METHOD_HEAD, 'head', 200],
+            [Transport::METHOD_GET, 'get', 200],
+            [Transport::METHOD_POST, 'post', 400],
+            [Transport::METHOD_PUT, 'put', 200],
+            [Transport::METHOD_DELETE, 'delete', 200],
+            [Transport::METHOD_PATCH, 'patch', 200],
         ];
     }
 }
