@@ -146,11 +146,11 @@ abstract class OptionFactory
      */
     public static function create($option, $value)
     {
-        if (!array_key_exists($option, static::$optionClassMap)) {
+        if (!array_key_exists($option, self::$optionClassMap)) {
             throw new CurlOptionException(sprintf('"%s" is not valid supported option', $option));
         }
 
-        $optionClass = '\Jgut\Spiral\Option\\' . static::$optionClassMap[$option];
+        $optionClass = '\Jgut\Spiral\Option\\' . self::$optionClassMap[$option];
 
         return new $optionClass($value);
     }
@@ -164,11 +164,11 @@ abstract class OptionFactory
      */
     public static function getOptionKey($option)
     {
-        if (is_string($option) && array_key_exists($option, static::$optionAliasMap)) {
-            $option = static::$optionAliasMap[$option];
+        if (is_string($option) && array_key_exists($option, self::$optionAliasMap)) {
+            $option = self::$optionAliasMap[$option];
         }
 
-        if (!array_key_exists($option, static::$optionClassMap)) {
+        if (!array_key_exists($option, self::$optionClassMap)) {
             throw new CurlOptionException(sprintf('"%s" is not valid supported option', $option));
         }
 

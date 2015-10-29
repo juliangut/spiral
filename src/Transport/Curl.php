@@ -9,6 +9,7 @@
 namespace Jgut\Spiral\Transport;
 
 use Jgut\Spiral\Transport;
+use Jgut\Spiral\Option;
 use Jgut\Spiral\Exception\CurlException;
 use Jgut\Spiral\Exception\CurlOptionException;
 use Jgut\Spiral\Option\OptionFactory;
@@ -88,7 +89,7 @@ class Curl implements Transport
     /**
      * Set cURL option.
      *
-     * @param string|\Jgut\Spiral\Option $option
+     * @param int|string|\Jgut\Spiral\Option $option
      * @param mixed $value
      */
     public function setOption($option, $value = '')

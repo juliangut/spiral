@@ -34,7 +34,7 @@ class Client
      * Run cURL request.
      *
      * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $respose
+     * @param \Psr\Http\Message\ResponseInterface $response
      * @param array $vars
      * @param array $flags
      * @return \Psr\Http\Message\RequestInterface
