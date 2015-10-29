@@ -70,7 +70,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     /**
      * @cover Jgut\Spiral\Transport\Curl::request
      * @expectedException Jgut\Spiral\Exception\CurlException
-     * @expectedExceptionMessageRegExp /^Could not resolve host/
+     * @expectedExceptionMessageRegExp /^Could( not|n't) resolve host/
      */
     public function testErrorRequest()
     {
