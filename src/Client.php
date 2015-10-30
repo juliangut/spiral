@@ -67,7 +67,7 @@ class Client
         $responseHeaders = '';
         $responseContent = $cURLResponse;
 
-        if ($transport->hasOption(CURLOPT_HEADER, true)) {
+        if (isset($transferInfo['header_size']) && $transferInfo['header_size']) {
             $headersSize = $transferInfo['header_size'];
 
             $responseHeaders = rtrim(substr($cURLResponse, 0, $headersSize));
