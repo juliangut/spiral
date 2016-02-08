@@ -11,26 +11,26 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\UserPwd;
 
 /**
- * @cover Jgut\Spiral\Option\UserPwd
+ * @cover \Jgut\Spiral\Option\UserPwd
  */
 class UserPwdTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\UserPwd::setValue
-     * @expectedException Jgut\Spiral\Exception\CurlOptionException
+     * @cover \Jgut\Spiral\Option\UserPwd::setValue
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testBadFormatted()
     {
-        $option = new UserPwd('Username Password');
+        new UserPwd('Username Password');
     }
 
     /**
-     * @cover Jgut\Spiral\Option\UserPwd::setValue
+     * @cover \Jgut\Spiral\Option\UserPwd::setValue
      */
     public function testAccessors()
     {
         $option = new UserPwd('user:passwd');
-
         $this->assertEquals(CURLOPT_USERPWD, $option->getOption());
         $this->assertEquals('user:passwd', $option->getValue());
     }

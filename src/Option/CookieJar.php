@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_COOKIEJAR option.
+ */
 class CookieJar extends OptionFile
 {
     /**

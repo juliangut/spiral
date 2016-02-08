@@ -11,17 +11,16 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\AutoReferer;
 
 /**
- * @cover Jgut\Spiral\Option\OptionBoolean
+ * @cover \Jgut\Spiral\Option\OptionBoolean
  */
 class OptionBooleanTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\OptionBoolean::setValue
+     * @cover \Jgut\Spiral\Option\OptionBoolean::setValue
      */
     public function testAccessors()
     {
         $option = new AutoReferer(true);
-
         $this->assertEquals(CURLOPT_AUTOREFERER, $option->getOption());
         $this->assertTrue($option->getValue());
 

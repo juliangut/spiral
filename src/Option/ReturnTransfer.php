@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_RETURNTRANSFER option.
+ */
 class ReturnTransfer extends OptionBoolean
 {
     /**

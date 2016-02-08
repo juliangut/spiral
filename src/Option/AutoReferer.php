@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_AUTOREFERER option.
+ */
 class AutoReferer extends OptionBoolean
 {
     /**

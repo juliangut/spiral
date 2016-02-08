@@ -11,12 +11,12 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\Cookie;
 
 /**
- * @cover Jgut\Spiral\Option\Cookie
+ * @cover \Jgut\Spiral\Option\Cookie
  */
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\Cookie::setValue
+     * @cover \Jgut\Spiral\Option\Cookie::setValue
      */
     public function testAccessors()
     {

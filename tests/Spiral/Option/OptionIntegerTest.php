@@ -11,17 +11,16 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\MaxRedirs;
 
 /**
- * @cover Jgut\Spiral\Option\OptionInteger
+ * @cover \Jgut\Spiral\Option\OptionInteger
  */
 class OptionIntegerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\OptionInt::setValue
+     * @cover \Jgut\Spiral\Option\OptionInt::setValue
      */
     public function testAccessors()
     {
         $option = new MaxRedirs(10);
-
         $this->assertEquals(CURLOPT_MAXREDIRS, $option->getOption());
         $this->assertEquals(10, $option->getValue());
 

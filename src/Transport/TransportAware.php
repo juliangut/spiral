@@ -8,16 +8,119 @@
 
 namespace Jgut\Spiral\Transport;
 
+use Jgut\Spiral\Exception\OptionException;
+use Jgut\Spiral\Option;
+use Jgut\Spiral\Option\OptionFactory;
 use Jgut\Spiral\Transport;
 
+/**
+ * Common transport trait.
+ */
 trait TransportAware
 {
     /**
-     * Perform OPTIONS cURL request.
+     * List of cURL options.
+     *
+     * @var \Jgut\Spiral\Option[]
+     */
+    private $options = [];
+
+    /**
+     * Retrieve added cURL options.
+     *
+     * @return \Jgut\Spiral\Option[]
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set cURL options.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        foreach ($options as $name => $value) {
+            $this->setOption($name, $value);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOption($option, $value = '', $quiet = false)
+    {
+        if (!$option instanceof Option) {
+            try {
+                $option = OptionFactory::create(OptionFactory::getOptionKey($option), $value);
+            } catch (OptionException $exception) {
+                if ($quiet !== true) {
+                    throw $exception;
+                }
+            }
+        }
+
+        $this->removeOption($option->getOption());
+        $this->options[] = $option;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasOption($option, $value = null)
+    {
+        if ($option instanceof Option) {
+            $option = $option->getOption();
+        } else {
+            try {
+                $option = OptionFactory::getOptionKey($option);
+            } catch (OptionException $exception) {
+                return false;
+            }
+        }
+
+        foreach ($this->options as $transportOption) {
+            if ($transportOption->getOption() === $option) {
+                return $value === null ?: $transportOption->getValue() === $value;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeOption($option)
+    {
+        if ($option instanceof Option) {
+            $option = $option->getOption();
+        } else {
+            try {
+                $option = OptionFactory::getOptionKey($option);
+            } catch (OptionException $exception) {
+                return;
+            }
+        }
+
+        $this->options = array_filter(
+            $this->options,
+            function ($transportOption) use ($option) {
+                /** @var \Jgut\Spiral\Option $transportOption */
+                return !($transportOption->getOption() === $option);
+            }
+        );
+    }
+
+    /**
+     * Shorthand for OPTIONS cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function options($uri, array $headers = [], array $vars = [])
@@ -26,11 +129,12 @@ trait TransportAware
     }
 
     /**
-     * Perform HEAD cURL request.
+     * Shorthand for HEAD cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function head($uri, array $headers = [], array $vars = [])
@@ -39,11 +143,12 @@ trait TransportAware
     }
 
     /**
-     * Perform GET cURL request.
+     * Shorthand for GET cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function get($uri, array $headers = [], array $vars = [])
@@ -52,11 +157,13 @@ trait TransportAware
     }
 
     /**
-     * Perform POST cURL request.
+     * Shorthand for POST cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     * @param array  $flags
+     *
      * @return string
      */
     public function post($uri, array $headers = [], array $vars = [], array $flags = [])
@@ -65,11 +172,12 @@ trait TransportAware
     }
 
     /**
-     * Perform PUT cURL request.
+     * Shorthand for PUT cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function put($uri, array $headers = [], array $vars = [])
@@ -78,11 +186,12 @@ trait TransportAware
     }
 
     /**
-     * Perform DELETE cURL request.
+     * Shorthand for DELETE cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function delete($uri, array $headers = [], array $vars = [])
@@ -91,11 +200,12 @@ trait TransportAware
     }
 
     /**
-     * Perform PATCH cURL request.
+     * Shorthand for PATCH cURL request.
      *
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
+     * @param array  $headers
+     * @param array  $vars
+     *
      * @return string
      */
     public function patch($uri, array $headers = [], array $vars = [])

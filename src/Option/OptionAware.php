@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL options trait.
+ */
 trait OptionAware
 {
     /**

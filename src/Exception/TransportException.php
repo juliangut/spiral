@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Exception;
 
-class CurlOptionException extends \InvalidArgumentException
+/**
+ * Transport exception.
+ */
+class TransportException extends \RuntimeException
 {
 }

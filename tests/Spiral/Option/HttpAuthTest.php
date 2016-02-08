@@ -11,12 +11,12 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\HttpAuth;
 
 /**
- * @cover Jgut\Spiral\Option\HttpAuth
+ * @cover \Jgut\Spiral\Option\HttpAuth
  */
 class HttpAuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\HttpAuth::setValue
+     * @cover \Jgut\Spiral\Option\HttpAuth::setValue
      */
     public function testAccessors()
     {

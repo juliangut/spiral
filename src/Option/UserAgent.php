@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_USERAGENT option.
+ */
 class UserAgent extends OptionString
 {
     /**

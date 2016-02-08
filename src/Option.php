@@ -9,7 +9,7 @@
 namespace Jgut\Spiral;
 
 /**
- * Option wrapper interface.
+ * cURL option wrapper interface.
  */
 interface Option
 {
@@ -21,7 +21,7 @@ interface Option
     public function getOption();
 
     /**
-     * Get option value.
+     * Get cURL option value.
      *
      * @return mixed
      */

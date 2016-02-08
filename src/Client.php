@@ -8,15 +8,18 @@
 
 namespace Jgut\Spiral;
 
+use Jgut\Spiral\Exception\TransportException;
 use Jgut\Spiral\Transport\Curl;
-use Jgut\Spiral\Exception\CurlException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * PSR7 aware client.
+ */
 class Client
 {
     /**
-     * cURL transport manager.
+     * cURL transport handler.
      *
      * @var \Jgut\Spiral\Transport
      */
@@ -31,60 +34,17 @@ class Client
     }
 
     /**
-     * Run cURL request.
+     * Set transport handler.
      *
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array $vars
-     * @param array $flags
-     * @return \Psr\Http\Message\RequestInterface
+     * @param \Jgut\Spiral\Transport $transport
      */
-    public function request(
-        RequestInterface $request,
-        ResponseInterface $response,
-        array $vars = [],
-        array $flags = []
-    ) {
-        $transport = $this->getTransport();
-        $transport->setOption(CURLOPT_HTTP_VERSION, $request->getProtocolVersion());
-
-        try {
-            $cURLResponse = $transport->request(
-                $request->getMethod(),
-                (string) $request->getUri(),
-                $request->getHeaders(),
-                $vars,
-                $flags
-            );
-
-            $transferInfo = $transport->responseInfo();
-
-            $transport->close();
-        } catch (CurlException $exception) {
-            return $response->withStatus(500, $exception->getMessage());
-        }
-
-        $responseHeaders = '';
-        $responseContent = $cURLResponse;
-
-        if (isset($transferInfo['header_size']) && $transferInfo['header_size']) {
-            $headersSize = $transferInfo['header_size'];
-
-            $responseHeaders = rtrim(substr($cURLResponse, 0, $headersSize));
-            $responseContent = (strlen($cURLResponse) === $headersSize) ? '' : substr($cURLResponse, $headersSize);
-        }
-
-        $responseHeaders = $this->getTransferHeaders(
-            preg_split('/(\\r?\\n)/', $responseHeaders),
-            $responseContent,
-            $transferInfo
-        );
-
-        return $this->populateResponse($response, $responseHeaders, $responseContent);
+    public function setTransport(Transport $transport)
+    {
+        $this->transport = $transport;
     }
 
     /**
-     * Retrieve transport object
+     * Retrieve transport handler.
      *
      * @return \Jgut\Spiral\Transport
      */
@@ -98,18 +58,75 @@ class Client
     }
 
     /**
+     * Run PSR7 request.
+     *
+     * @param \Psr\Http\Message\RequestInterface  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param array                               $vars
+     * @param array                               $flags
+     *
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function request(
+        RequestInterface $request,
+        ResponseInterface $response,
+        array $vars = [],
+        array $flags = []
+    ) {
+        $transport = $this->getTransport();
+        $transport->setOption('http_version', $request->getProtocolVersion(), true);
+
+        try {
+            $transferResponse = $transport->request(
+                $request->getMethod(),
+                (string) $request->getUri(),
+                $request->getHeaders(),
+                $vars,
+                $flags
+            );
+
+            $transferInfo = $transport->responseInfo();
+
+            $transport->close();
+        } catch (TransportException $exception) {
+            return $response->withStatus(500, $exception->getMessage());
+        }
+
+        $responseHeaders = '';
+        $responseContent = $transferResponse;
+
+        if (isset($transferInfo['header_size']) && $transferInfo['header_size']) {
+            $headersSize = $transferInfo['header_size'];
+
+            $responseHeaders = rtrim(substr($transferResponse, 0, $headersSize));
+            $responseContent = (strlen($transferResponse) === $headersSize)
+                ? ''
+                : substr($transferResponse, $headersSize);
+        }
+
+        $responseHeaders = $this->getTransferHeaders(
+            preg_split('/(\\r?\\n)/', $responseHeaders),
+            $responseContent,
+            $transferInfo
+        );
+
+        return $this->populateResponse($response, $responseHeaders, $responseContent);
+    }
+
+    /**
      * Get response headers based on transfer information.
      *
-     * @param array transferHeaders
-     * @param string transferContent
-     * @param array $transferInfo
+     * @param array  $transferHeaders
+     * @param string $transferContent
+     * @param array  $transferInfo
+     *
      * @return array
      */
     protected function getTransferHeaders(array $transferHeaders, $transferContent, array $transferInfo)
     {
         $responseHeaders = [
-            'Status' => $transferInfo['http_code'],
-            'Content-Type' => $transferInfo['content_type'],
+            'Status'         => $transferInfo['http_code'],
+            'Content-Type'   => $transferInfo['content_type'],
             'Content-Length' => strlen($transferContent),
         ];
 
@@ -130,18 +147,19 @@ class Client
      * Set response headers and content.
      *
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array $headers
-     * @param string $content
+     * @param array                               $headers
+     * @param string                              $content
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function populateResponse(ResponseInterface $response, array $headers, $content)
     {
-        if (isset($headers['Protocol-Version'])) {
+        if (array_key_exists('Protocol-Version', $headers)) {
             $response = $response->withProtocolVersion($headers['Protocol-Version']);
             unset($headers['Protocol-Version']);
         }
 
-        if (isset($headers['Status'])) {
+        if (array_key_exists('Status', $headers)) {
             $response = $response->withStatus($headers['Status']);
             unset($headers['Status']);
         }

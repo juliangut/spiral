@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_PORT option.
+ */
 class Port extends OptionInteger
 {
     /**

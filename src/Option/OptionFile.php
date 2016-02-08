@@ -8,8 +8,8 @@
 
 namespace Jgut\Spiral\Option;
 
+use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option;
-use Jgut\Spiral\Exception\CurlOptionException;
 
 /**
  * File cURL option wrapper.
@@ -22,13 +22,14 @@ abstract class OptionFile implements Option
      * Set option value.
      *
      * @param bool $value
-     * @throws \Jgut\Exception\CurlOptionException
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     protected function setValue($value)
     {
         $value = trim($value);
         if (!is_file($value) || !is_readable($value)) {
-            throw new CurlOptionException(sprintf('"%s" is not a readable file', $value));
+            throw new OptionException(sprintf('"%s" is not a readable file', $value));
         }
 
         $this->value = $value;

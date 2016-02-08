@@ -11,21 +11,22 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\HttpVersion;
 
 /**
- * @cover Jgut\Spiral\Option\HttpVersion
+ * @cover \Jgut\Spiral\Option\HttpVersion
  */
 class HttpVersionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\HttpVersion::setValue
-     * @expectedException Jgut\Spiral\Exception\CurlOptionException
+     * @cover \Jgut\Spiral\Option\HttpVersion::setValue
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testInvalidVersion()
     {
-        $option = new HttpVersion(2);
+        new HttpVersion(2);
     }
 
     /**
-     * @cover Jgut\Spiral\Option\HttpVersion::setValue
+     * @cover \Jgut\Spiral\Option\HttpVersion::setValue
      */
     public function testAccessors()
     {

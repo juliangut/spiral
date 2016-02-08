@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_CRLF option.
+ */
 class Crlf extends OptionBoolean
 {
     /**

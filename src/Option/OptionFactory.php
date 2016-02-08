@@ -8,7 +8,7 @@
 
 namespace Jgut\Spiral\Option;
 
-use Jgut\Spiral\Exception\CurlOptionException;
+use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option;
 
 /**
@@ -78,61 +78,64 @@ abstract class OptionFactory
      * @var array
      */
     private static $optionClassMap = [
-        // Boolean. Convert Unix newlines to CRLF newlines on transfers
+        // Boolean
+        // Convert Unix newlines to CRLF newlines on transfers
         CURLOPT_CRLF              => 'Crlf',
-        // Boolean. Include request header in the output
+        // Include request header in the output
         CURLINFO_HEADER_OUT       => 'HeaderOut',
-        //Boolean. Include response header in the output
+        // Include response header in the output
         CURLOPT_HEADER            => 'Header',
-        // Boolean. Return the transfer as a string instead of outputting
+        // Return the transfer as a string instead of outputting
         CURLOPT_RETURNTRANSFER    => 'ReturnTransfer',
-        //Boolean. Output verbose information
+        // Output verbose information
         CURLOPT_VERBOSE           => 'Verbose',
-        // Boolean. False to stop cURL from verifying the peer's certificate
+        // False to stop cURL from verifying the peer's certificate
         CURLOPT_SSL_VERIFYPEER    => 'SslVerifyPeer',
-        // Boolean. Follow any Location headers sent by server
+        // Follow any Location headers sent by server
         CURLOPT_FOLLOWLOCATION    => 'FollowLocation',
-        // Boolean. Automatically set the http referer header when following a redirect
+        // Automatically set the http referer header when following a redirect
         CURLOPT_AUTOREFERER       => 'AutoReferer',
-        // Boolean. Keep sending the username and password when following locations
+        // Keep sending the username and password when following locations
         CURLOPT_UNRESTRICTED_AUTH => 'UnrestrictedAuth',
-        // Boolean. Get HTTP header for modification date of file
+        // Get HTTP header for modification date of file
         CURLOPT_FILETIME          => 'FileTime',
         /*
-        Integer. HTTP authentication method(s) to use:
+        HTTP authentication method(s) to use:
             CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
-        Currently only CURLAUTH_BASIC is available and implemented as bool
+        Currently only CURLAUTH_BASIC is available and implemented as boolean
         */
         CURLOPT_HTTPAUTH          => 'HttpAuth',
 
-        // Integer. Number of seconds to wait while trying to connect. 0 to wait indefinitely
+        // Integer
+        // Number of seconds to wait while trying to connect. 0 to wait indefinitely
         CURLOPT_CONNECTTIMEOUT    => 'ConnectTimeout',
-        // Integer. Maximum number of seconds to allow cURL functions to execute
+        // Maximum number of seconds to allow cURL functions to execute
         CURLOPT_TIMEOUT           => 'Timeout',
-        // Integer. The maximum amount of HTTP redirections to follow
+        // The maximum amount of HTTP redirections to follow
         CURLOPT_MAXREDIRS         => 'MaxRedirs',
-        // Float. Which HTTP version to use. "1.0" for CURL_HTTP_VERSION_1_0 or "1.1" for CURL_HTTP_VERSION_1_1
-        CURLOPT_HTTP_VERSION      => 'HttpVersion',
-        // Integer. Which SSL version (2 or 3) to use
+        // Which SSL version (2 or 3) to use
         CURLOPT_SSLVERSION        => 'SslVersion',
-        // Integer. Alternative port number to connect to
+        // Alternative port number to connect to
         CURLOPT_PORT              => 'Port',
 
-        // String. HTTP header definition
+        // String
+        // Which HTTP version to use. "1.0" for CURL_HTTP_VERSION_1_0 or "1.1" for CURL_HTTP_VERSION_1_1
+        CURLOPT_HTTP_VERSION      => 'HttpVersion',
+        // HTTP header definition
         CURLOPT_HTTPHEADER        => 'HttpHeader',
-        // String. Contents of the "User-Agent: " header to be used in a HTTP request
+        // Contents of the "User-Agent: " header to be used in a HTTP request
         CURLOPT_USERAGENT         => 'UserAgent',
-        // String. Contents of the "Referer: " header to be used in a HTTP request
+        // Contents of the "Referer: " header to be used in a HTTP request
         CURLOPT_REFERER           => 'Referer',
-        // String. Username and password formatted as "[username]:[password]" to use for the connection
+        // Username and password formatted as "[username]:[password]" to use for the connection
         CURLOPT_USERPWD           => 'UserPwd',
-        // String|array. Contents of the "Cookie: " header to be used in the HTTP request
+        // Contents of the "Cookie: " header to be used in the HTTP request. Can be an array
         CURLOPT_COOKIE            => 'Cookie',
-        // String. Name of the file containing the cookie data
+        // Name of the file containing the cookie data
         CURLOPT_COOKIEFILE        => 'CookieFile',
-        // String. Name of a file to save all internal cookies to when the handle is closed
+        // Name of a file to save all internal cookies to when the handle is closed
         CURLOPT_COOKIEJAR         => 'CookieJar',
-        // String Contents of the "Accept-Encoding: " header. This enables decoding of the response
+        // Contents of the "Accept-Encoding: " header. This enables decoding of the response
         CURLOPT_ENCODING          => 'Encoding',
     ];
 
@@ -141,13 +144,15 @@ abstract class OptionFactory
      *
      * @param int $option
      * @param mixed $value
-     * @throws \Jgut\Exception\CurlOptionException
+     *
      * @return \Jgut\Spiral\Option
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     public static function create($option, $value)
     {
         if (!array_key_exists($option, self::$optionClassMap)) {
-            throw new CurlOptionException(sprintf('"%s" is not valid supported option', $option));
+            throw new OptionException(sprintf('"%s" is not valid supported option', $option));
         }
 
         $optionClass = '\Jgut\Spiral\Option\\' . self::$optionClassMap[$option];
@@ -159,8 +164,10 @@ abstract class OptionFactory
      * Get mapped option.
      *
      * @param int|string $option
-     * @throws \Jgut\Exception\CurlOptionException
+     *
      * @return int
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     public static function getOptionKey($option)
     {
@@ -169,7 +176,7 @@ abstract class OptionFactory
         }
 
         if (!array_key_exists($option, self::$optionClassMap)) {
-            throw new CurlOptionException(sprintf('"%s" is not valid supported option', $option));
+            throw new OptionException(sprintf('"%s" is not valid supported option', $option));
         }
 
         return $option;

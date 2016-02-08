@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_FOLLOWLOCATION option.
+ */
 class FollowLocation extends OptionBoolean
 {
     /**

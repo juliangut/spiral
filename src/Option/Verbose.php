@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_VERBOSE option.
+ */
 class Verbose extends OptionBoolean
 {
     /**

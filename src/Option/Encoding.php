@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_ENCODING option.
+ */
 class Encoding extends OptionString
 {
     /**

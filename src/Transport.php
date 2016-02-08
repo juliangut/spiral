@@ -25,13 +25,56 @@ interface Transport
     const METHOD_PATCH   = 'PATCH';
 
     /**
+     * Retrieve added cURL options.
+     *
+     * @return \Jgut\Spiral\Option[]
+     */
+    public function getOptions();
+
+    /**
+     * Set cURL options.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options);
+
+    /**
+     * Set cURL option.
+     *
+     * @param int|string|\Jgut\Spiral\Option $option
+     * @param mixed                          $value
+     * @param bool                           $quiet
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
+     */
+    public function setOption($option, $value = '', $quiet = false);
+
+    /**
+     * Check if an option has been added.
+     *
+     * @param int|string|\Jgut\Spiral\Option $option
+     * @param mixed                          $value
+     *
+     * @return bool
+     */
+    public function hasOption($option, $value = null);
+
+    /**
+     * Remove cURL option.
+     *
+     * @param int|string|\Jgut\Spiral\Option $option
+     */
+    public function removeOption($option);
+
+    /**
      * Perform a cURL request.
      *
      * @param string $method
      * @param string $uri
-     * @param array $headers
-     * @param array $vars
-     * @param array $flags
+     * @param array  $headers
+     * @param array  $vars
+     * @param array  $flags
+     *
      * @return string
      */
     public function request($method, $uri, array $headers = [], array $vars = [], array $flags = []);
@@ -40,6 +83,7 @@ interface Transport
      * Retrieve response information.
      *
      * @param int $option
+     *
      * @return mixed|null
      */
     public function responseInfo($option = null);

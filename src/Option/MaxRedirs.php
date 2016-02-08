@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_HEADER option.
+ */
 class MaxRedirs extends OptionInteger
 {
     /**

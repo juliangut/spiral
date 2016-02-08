@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_CONNECTTIMEOUT option.
+ */
 class ConnectTimeout extends OptionInteger
 {
     /**

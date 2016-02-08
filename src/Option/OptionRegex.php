@@ -8,8 +8,8 @@
 
 namespace Jgut\Spiral\Option;
 
+use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option;
-use Jgut\Spiral\Exception\CurlOptionException;
 
 /**
  * Regex cURL option wrapper.
@@ -36,14 +36,15 @@ abstract class OptionRegex implements Option
      * Set option value.
      *
      * @param string $value
-     * @throws \Jgut\Exception\CurlOptionException
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     protected function setValue($value)
     {
         $value = trim($value);
 
         if (!preg_match($this->regex, $value)) {
-            throw new CurlOptionException(sprintf($this->message, $value));
+            throw new OptionException(sprintf($this->message, $value));
         }
 
         $this->value = $value;

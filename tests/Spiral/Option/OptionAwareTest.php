@@ -12,15 +12,15 @@ use Jgut\Spiral\Option\Encoding;
 use Jgut\Spiral\Option\HeaderOut;
 
 /**
- * @cover Jgut\Spiral\Option\OptionAware
+ * @cover \Jgut\Spiral\Option\OptionAware
  */
 class OptionAwareTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\OptionAware::__construct
-     * @cover Jgut\Spiral\Option\OptionAware::getOption
-     * @cover Jgut\Spiral\Option\OptionAware::getValue
-     * @cover Jgut\Spiral\Option\OptionAware::__toString
+     * @cover \Jgut\Spiral\Option\OptionAware::__construct
+     * @cover \Jgut\Spiral\Option\OptionAware::getOption
+     * @cover \Jgut\Spiral\Option\OptionAware::getValue
+     * @cover \Jgut\Spiral\Option\OptionAware::__toString
      */
     public function testAccessors()
     {

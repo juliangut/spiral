@@ -11,26 +11,26 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\SslVersion;
 
 /**
- * @cover Jgut\Spiral\Option\OptionRegex
+ * @cover \Jgut\Spiral\Option\OptionRegex
  */
 class OptionRegexTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\OptionRegex::setValue
-     * @expectedException Jgut\Spiral\Exception\CurlOptionException
+     * @cover \Jgut\Spiral\Option\OptionRegex::setValue
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testBadFormatted()
     {
-        $option = new SslVersion(10);
+        new SslVersion(10);
     }
 
     /**
-     * @cover Jgut\Spiral\Option\OptionRegex::setValue
+     * @cover \Jgut\Spiral\Option\OptionRegex::setValue
      */
     public function testAccessors()
     {
         $option = new SslVersion(2);
-
         $this->assertEquals(CURLOPT_SSLVERSION, $option->getOption());
         $this->assertEquals(2, $option->getValue());
     }

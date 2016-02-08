@@ -10,6 +10,9 @@ namespace Jgut\Spiral\Option;
 
 use Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_HTTPAUTH option.
+ */
 class HttpAuth implements Option
 {
     use OptionAware;

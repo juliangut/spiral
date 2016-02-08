@@ -8,9 +8,12 @@
 
 namespace Jgut\Spiral\Option;
 
+use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option;
-use Jgut\Spiral\Exception\CurlOptionException;
 
+/**
+ * cURL CURLOPT_HTTP_VERSION option.
+ */
 class HttpVersion implements Option
 {
     use OptionAware;
@@ -26,14 +29,14 @@ class HttpVersion implements Option
      * Set option value.
      *
      * @param float|string $value
-     * @throws \Jgut\Exception\CurlOptionException
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     protected function setValue($value)
     {
         $value = number_format(floatval($value), 1, '.', '');
 
         if (!preg_match('/^1.(0|1)$/', $value)) {
-            throw new CurlOptionException(sprintf('"%s" is not a valid HTTP version', $value));
+            throw new OptionException(sprintf('"%s" is not a valid HTTP version', $value));
         }
 
         $this->value = constant('CURL_HTTP_VERSION_' . str_replace('.', '_', $value));

@@ -12,16 +12,16 @@ use Jgut\Spiral\Transport;
 use Jgut\Spiral\Transport\Curl;
 
 /**
- * @cover Jgut\Spiral\Transport\Curl
- * @cover Jgut\Spiral\Transport\TransportAware
+ * @cover \Jgut\Spiral\Transport\Curl
+ * @cover \Jgut\Spiral\Transport\TransportAware
  */
 class CurlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Transport\Curl::setOptions
-     * @cover Jgut\Spiral\Transport\Curl::setOption
-     * @cover Jgut\Spiral\Transport\Curl::hasOption
-     * @cover Jgut\Spiral\Transport\Curl::getOptions
+     * @cover \Jgut\Spiral\Transport\Curl::setOptions
+     * @cover \Jgut\Spiral\Transport\Curl::setOption
+     * @cover \Jgut\Spiral\Transport\Curl::hasOption
+     * @cover \Jgut\Spiral\Transport\Curl::getOptions
      */
     public function testAccessorsMutators()
     {
@@ -45,7 +45,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Transport\Curl::createFromDefaults
+     * @cover \Jgut\Spiral\Transport\Curl::createFromDefaults
      */
     public function testDefaultCreation()
     {
@@ -56,9 +56,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Transport\Curl::close
-     * @cover Jgut\Spiral\Transport\Curl::request
-     * @expectedException Jgut\Spiral\Exception\CurlException
+     * @cover \Jgut\Spiral\Transport\Curl::close
+     * @cover \Jgut\Spiral\Transport\Curl::request
+     *
+     * @expectedException \Jgut\Spiral\Exception\TransportException
      */
     public function testBadMethod()
     {
@@ -68,8 +69,9 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Transport\Curl::request
-     * @expectedException Jgut\Spiral\Exception\CurlException
+     * @cover \Jgut\Spiral\Transport\Curl::request
+     *
+     * @expectedException \Jgut\Spiral\Exception\TransportException
      * @expectedExceptionMessageRegExp /^Could( not|n't) resolve host/
      */
     public function testErrorRequest()
@@ -80,9 +82,9 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Transport\Curl::request
-     * @cover Jgut\Spiral\Transport\Curl::forgeOptions
-     * @cover Jgut\Spiral\Transport\Curl::forgeHeaders
+     * @cover \Jgut\Spiral\Transport\Curl::request
+     * @cover \Jgut\Spiral\Transport\Curl::forgeOptions
+     * @cover \Jgut\Spiral\Transport\Curl::forgeHeaders
      */
     public function testForgeAndInfo()
     {
@@ -100,7 +102,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Transport\Curl::request
+     * @cover \Jgut\Spiral\Transport\Curl::request
      */
     public function testRequestWithVars()
     {
@@ -116,19 +118,20 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider methodProvider
-     * @cover Jgut\Spiral\Transport\Curl::request
-     * @cover Jgut\Spiral\Transport\Curl::setMethod
-     * @cover Jgut\Spiral\Transport\TransportAware::options
-     * @cover Jgut\Spiral\Transport\TransportAware::head
-     * @cover Jgut\Spiral\Transport\TransportAware::get
-     * @cover Jgut\Spiral\Transport\TransportAware::post
-     * @cover Jgut\Spiral\Transport\TransportAware::put
-     * @cover Jgut\Spiral\Transport\TransportAware::delete
-     * @cover Jgut\Spiral\Transport\TransportAware::patch
+     * @cover \Jgut\Spiral\Transport\Curl::request
+     * @cover \Jgut\Spiral\Transport\Curl::setMethod
+     * @cover \Jgut\Spiral\Transport\TransportAware::options
+     * @cover \Jgut\Spiral\Transport\TransportAware::head
+     * @cover \Jgut\Spiral\Transport\TransportAware::get
+     * @cover \Jgut\Spiral\Transport\TransportAware::post
+     * @cover \Jgut\Spiral\Transport\TransportAware::put
+     * @cover \Jgut\Spiral\Transport\TransportAware::delete
+     * @cover \Jgut\Spiral\Transport\TransportAware::patch
      *
      * @param string $method
      * @param string $shorthand
+     *
+     * @dataProvider methodProvider
      */
     public function testRequestMethods($method, $shorthand, $expectedCode)
     {
@@ -154,7 +157,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             [Transport::METHOD_OPTIONS, 'options', 200],
             [Transport::METHOD_HEAD, 'head', 200],
             [Transport::METHOD_GET, 'get', 200],
-            [Transport::METHOD_POST, 'post', 400],
+            [Transport::METHOD_POST, 'post', 200],
             [Transport::METHOD_PUT, 'put', 200],
             [Transport::METHOD_DELETE, 'delete', 200],
             [Transport::METHOD_PATCH, 'patch', 200],

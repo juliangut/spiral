@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_HEADER option.
+ */
 class Header extends OptionBoolean
 {
     /**

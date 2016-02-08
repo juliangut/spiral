@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLINFO_HEADER_OUT option.
+ */
 class HeaderOut extends OptionBoolean
 {
     /**

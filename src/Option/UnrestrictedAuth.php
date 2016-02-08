@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_UNRESTRICTED_AUTH option.
+ */
 class UnrestrictedAuth extends OptionBoolean
 {
     /**

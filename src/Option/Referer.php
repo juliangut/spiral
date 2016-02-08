@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_REFERER option.
+ */
 class Referer extends OptionString
 {
     /**

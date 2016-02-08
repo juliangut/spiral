@@ -11,13 +11,14 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionFactory;
 
 /**
- * @cover Jgut\Spiral\Option\OptionFactory
+ * @cover \Jgut\Spiral\Option\OptionFactory
  */
 class OptionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover Jgut\Spiral\Option\OptionFactory::getOptionKey
-     * @expectedException Jgut\Spiral\Exception\CurlOptionException
+     * @cover \Jgut\Spiral\Option\OptionFactory::getOptionKey
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testUnknownOptionKey()
     {
@@ -25,7 +26,7 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Option\OptionFactory::getOptionKey
+     * @cover \Jgut\Spiral\Option\OptionFactory::getOptionKey
      */
     public function testOptionKey()
     {
@@ -33,8 +34,9 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Option\OptionFactory::create
-     * @expectedException Jgut\Spiral\Exception\CurlOptionException
+     * @cover \Jgut\Spiral\Option\OptionFactory::create
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testWrongCreation()
     {
@@ -42,7 +44,7 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover Jgut\Spiral\Option\OptionFactory::create
+     * @cover \Jgut\Spiral\Option\OptionFactory::create
      */
     public function testCreation()
     {

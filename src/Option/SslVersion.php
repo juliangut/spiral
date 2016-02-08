@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_SSLVERSION option.
+ */
 class SslVersion extends OptionRegex
 {
     /**

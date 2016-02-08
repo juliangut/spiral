@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_USERPWD option.
+ */
 class UserPwd extends OptionRegex
 {
     /**

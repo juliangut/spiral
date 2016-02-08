@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_SSL_VERIFYPEER option.
+ */
 class SslVerifyPeer extends OptionBoolean
 {
     /**

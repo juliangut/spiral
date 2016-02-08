@@ -14,7 +14,7 @@ use Phly\Http\Request;
 use Phly\Http\Response;
 
 /**
- * @cover Jgut\Spiral\Client
+ * @cover \Jgut\Spiral\Client
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {

@@ -8,6 +8,9 @@
 
 namespace Jgut\Spiral\Option;
 
+/**
+ * cURL CURLOPT_FILETIME option.
+ */
 class FileTime extends OptionBoolean
 {
     /**
