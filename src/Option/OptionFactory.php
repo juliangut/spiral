@@ -264,7 +264,7 @@ abstract class OptionFactory
      * Configure option callback.
      *
      * @param \Jgut\Spiral\Option\OptionCallback $optionClass
-     * @param                                    $option
+     * @param int                                $option
      *
      * @return \Jgut\Spiral\Option\OptionCallback
      */
