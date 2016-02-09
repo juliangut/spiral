@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": ">=5.5",
+        "ext-curl": "*",
         "lib-curl": "*",
         "psr/http-message": "^1.0"
     },
