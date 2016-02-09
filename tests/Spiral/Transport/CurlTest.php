@@ -157,7 +157,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             [Transport::METHOD_OPTIONS, 'options', 200],
             [Transport::METHOD_HEAD, 'head', 200],
             [Transport::METHOD_GET, 'get', 200],
-            [Transport::METHOD_POST, 'post', 200],
+            [Transport::METHOD_POST, 'post', 400],
             [Transport::METHOD_PUT, 'put', 200],
             [Transport::METHOD_DELETE, 'delete', 200],
             [Transport::METHOD_PATCH, 'patch', 200],

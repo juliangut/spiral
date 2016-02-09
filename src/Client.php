@@ -104,11 +104,11 @@ class Client
                 : substr($transferResponse, $headersSize);
         }
 
-        // Discard all header blocks but the last one
-        $responseHeaders = array_pop(preg_split('/(\\r?\\n){2}/', $responseHeaders));
+        // Split headers blocks
+        $responseHeaders = preg_split('/(\\r?\\n){2}/', $responseHeaders);
 
         $responseHeaders = $this->getTransferHeaders(
-            preg_split('/\\r?\\n/', $responseHeaders),
+            preg_split('/\\r?\\n/', array_pop($responseHeaders)),
             $responseContent,
             $transferInfo
         );
