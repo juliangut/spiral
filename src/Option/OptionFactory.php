@@ -246,13 +246,12 @@ abstract class OptionFactory
             }
         }
 
-        $curlConstants = array_filter(
-            get_defined_constants(true)['curl'],
-            function ($val, $key) {
-                return is_int($val) && strpos($key, 'CURLOPT_') === 0;
-            },
-            ARRAY_FILTER_USE_BOTH
-        );
+        $curlConstants = [];
+        foreach (get_defined_constants(true)['curl'] as $key => $val) {
+            if (strpos($key, 'CURLOPT_') === 0) {
+                $curlConstants[] = $val;
+            }
+        }
 
         if (!in_array($option, $curlConstants, true)) {
             throw new OptionException(sprintf('"%s" is not valid cURL option', $option));
