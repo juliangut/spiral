@@ -64,19 +64,6 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover \Jgut\Spiral\Transport\Curl::close
-     * @cover \Jgut\Spiral\Transport\Curl::request
-     *
-     * @expectedException \Jgut\Spiral\Exception\TransportException
-     */
-    public function testBadMethod()
-    {
-        $transport = Curl::createFromDefaults();
-
-        $transport->request('FAKE', 'http://example.com');
-    }
-
-    /**
      * @cover \Jgut\Spiral\Transport\Curl::request
      *
      * @expectedException \Jgut\Spiral\Exception\TransportException
