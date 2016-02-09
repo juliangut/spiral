@@ -32,12 +32,15 @@ class Curl implements Transport
         CURLOPT_TIMEOUT           => 60,
         CURLOPT_CRLF              => false,
         CURLOPT_SSLVERSION        => 3,
+        CURLOPT_SSL_VERIFYPEER    => true,
+        CURLOPT_SSL_VERIFYHOST    => 2,
         CURLOPT_AUTOREFERER       => true,
         CURLOPT_FOLLOWLOCATION    => true,
         CURLOPT_MAXREDIRS         => 10,
         CURLOPT_UNRESTRICTED_AUTH => false,
         CURLOPT_RETURNTRANSFER    => true,
         CURLOPT_HEADER            => true,
+        CURLOPT_FRESH_CONNECT     => true,
     ];
 
     /**
@@ -91,6 +94,8 @@ class Curl implements Transport
         $flags = array_merge(['post_multipart' => false], $flags);
 
         if (count($vars)) {
+            $parameters = $vars;
+
             if (in_array(
                 $method,
                 [
@@ -102,14 +107,13 @@ class Curl implements Transport
                 ],
                 true
             )) {
-                $uri .= (strpos($uri, '?') !== false) ? '&' : '?';
-                $uri .= http_build_query($vars, '', '&');
-                $vars = null;
+                $parameters = null;
+                $uri .= ((strpos($uri, '?') !== false) ? '&' : '?') . http_build_query($vars, '', '&');
             } elseif ($method !== Transport::METHOD_POST || $flags['post_multipart'] !== true) {
-                $vars = http_build_query($vars, '', '&');
+                $parameters = http_build_query($vars, '', '&');
             }
 
-            if ($vars !== null) {
+            if ($parameters !== null) {
                 curl_setopt($this->handler, CURLOPT_POSTFIELDS, $vars);
             }
         }

@@ -9,21 +9,14 @@
 namespace Jgut\Spiral\Option;
 
 /**
- * cURL CURLOPT_PORT option.
+ * cURL CURLOPT_NETRC option.
  */
-class Port extends OptionInteger
+class Netrc extends OptionBoolean
 {
     /**
      * cURL option.
      *
      * @var int
      */
-    protected $option = CURLOPT_PORT;
-
-    /**
-     * Maximum valid value.
-     *
-     * @var int
-     */
-    protected $max = 99999;
+    protected $option = CURLOPT_NETRC;
 }

@@ -8,7 +8,7 @@
 
 namespace Jgut\Spiral\Tests\Option;
 
-use Jgut\Spiral\Option\MaxRedirs;
+use Jgut\Spiral\Option\Port;
 
 /**
  * @cover \Jgut\Spiral\Option\OptionInteger
@@ -20,11 +20,14 @@ class OptionIntegerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAccessors()
     {
-        $option = new MaxRedirs(10);
-        $this->assertEquals(CURLOPT_MAXREDIRS, $option->getOption());
+        $option = new Port(10);
+        $this->assertEquals(CURLOPT_PORT, $option->getOption());
         $this->assertEquals(10, $option->getValue());
 
-        $option = new MaxRedirs(-10);
+        $option = new Port(-10);
         $this->assertEquals(0, $option->getValue());
+
+        $option = new Port(999999);
+        $this->assertEquals(99999, $option->getValue());
     }
 }

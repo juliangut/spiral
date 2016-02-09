@@ -25,12 +25,25 @@ abstract class OptionInteger implements Option
     protected $min = 0;
 
     /**
+     * Maximum valid value.
+     *
+     * @var int
+     */
+    protected $max;
+
+    /**
      * Set option value.
      *
      * @param int $value
      */
     protected function setValue($value)
     {
-        $this->value = max($this->min, $value);
+        $value = max($this->min, $value);
+
+        if ($this->max !== null) {
+            $value = min($value, $this->max);
+        }
+
+        $this->value = $value;
     }
 }

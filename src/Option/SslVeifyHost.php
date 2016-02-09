@@ -9,21 +9,24 @@
 namespace Jgut\Spiral\Option;
 
 /**
- * cURL CURLOPT_PORT option.
+ * cURL CURLOPT_SSL_VERIFYHOST option.
  */
-class Port extends OptionInteger
+class SslVerifyHost extends OptionRegex
 {
     /**
      * cURL option.
      *
      * @var int
      */
-    protected $option = CURLOPT_PORT;
+    protected $option = CURLOPT_SSL_VERIFYHOST;
 
     /**
-     * Maximum valid value.
-     *
-     * @var int
+     * @inheritdoc
      */
-    protected $max = 99999;
+    protected $regex = '/^[12]$/';
+
+    /**
+     * @inheritdoc
+     */
+    protected $message = '"%s" is not valid SSL verify host value';
 }

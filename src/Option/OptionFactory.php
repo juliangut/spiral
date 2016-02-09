@@ -22,51 +22,59 @@ abstract class OptionFactory
      * @var array
      */
     private static $optionAliasMap = [
-        'http_header'        => CURLOPT_HTTPHEADER,
+        'http-header'        => CURLOPT_HTTPHEADER,
 
         'crlf'               => CURLOPT_CRLF,
-        'header_out'         => CURLINFO_HEADER_OUT,
-        'return_transfer'    => CURLOPT_RETURNTRANSFER,
+        'header-out'         => CURLINFO_HEADER_OUT,
+        'return-transfer'    => CURLOPT_RETURNTRANSFER,
         'verbose'            => CURLOPT_VERBOSE,
-        'user_agent'         => CURLOPT_USERAGENT,
-        'ssl_version'        => CURLOPT_SSLVERSION,
-        'cookie_file'        => CURLOPT_COOKIEFILE,
-        'cookie_jar'         => CURLOPT_COOKIEJAR,
+        'user-agent'         => CURLOPT_USERAGENT,
+        'ssl-version'        => CURLOPT_SSLVERSION,
+        'cookie-file'        => CURLOPT_COOKIEFILE,
+        'cookie-jar'         => CURLOPT_COOKIEJAR,
         'referer'            => CURLOPT_REFERER,
-        'auto_referer'       => CURLOPT_AUTOREFERER,
-        'file_time'          => CURLOPT_FILETIME,
-        'user_password'      => CURLOPT_USERPWD,
-        'http_version'       => CURLOPT_HTTP_VERSION,
+        'auto-referer'       => CURLOPT_AUTOREFERER,
+        'file-time'          => CURLOPT_FILETIME,
+        'user-password'      => CURLOPT_USERPWD,
+        'http-version'       => CURLOPT_HTTP_VERSION,
         'port'               => CURLOPT_PORT,
         'encoding'           => CURLOPT_ENCODING,
+        'buffer-size'        => CURLOPT_BUFFERSIZE,
+        'post-redir'         => CURLOPT_POSTREDIR,
+        'stderr'             => CURLOPT_STDERR,
+        'netrc'              => CURLOPT_NETRC,
 
         'header'             => CURLOPT_HEADER,
         'include'            => CURLOPT_HEADER,
 
-        'connect_timeout'    => CURLOPT_CONNECTTIMEOUT,
-        'connection_timeout' => CURLOPT_CONNECTTIMEOUT,
+        'connect-timeout'    => CURLOPT_CONNECTTIMEOUT,
+        'connection-timeout' => CURLOPT_CONNECTTIMEOUT,
 
         'timeout'            => CURLOPT_TIMEOUT,
-        'max_time'           => CURLOPT_TIMEOUT,
+        'max-time'           => CURLOPT_TIMEOUT,
 
+        'ssl_verify_host'    => CURLOPT_SSL_VERIFYHOST,
         'ssl_verify_peer'    => CURLOPT_SSL_VERIFYPEER,
         'insecure'           => CURLOPT_SSL_VERIFYPEER,
 
-        'follow_location'    => CURLOPT_FOLLOWLOCATION,
-        'follow_redirects'   => CURLOPT_FOLLOWLOCATION,
+        'follow-location'    => CURLOPT_FOLLOWLOCATION,
+        'follow-redirects'   => CURLOPT_FOLLOWLOCATION,
         'location'           => CURLOPT_FOLLOWLOCATION,
 
-        'max_redirs'         => CURLOPT_MAXREDIRS,
-        'max_redirects'      => CURLOPT_MAXREDIRS,
+        'max-redirs'         => CURLOPT_MAXREDIRS,
+        'max-redirects'      => CURLOPT_MAXREDIRS,
 
         'cookie'             => CURLOPT_COOKIE,
         'cookies'            => CURLOPT_COOKIE,
 
-        'http_auth'          => CURLOPT_HTTPAUTH,
+        'http-auth'          => CURLOPT_HTTPAUTH,
         'auth'               => CURLOPT_HTTPAUTH,
 
-        'unrestricted_auth'  => CURLOPT_UNRESTRICTED_AUTH,
-        'location_trusted'   => CURLOPT_UNRESTRICTED_AUTH,
+        'unrestricted-auth'  => CURLOPT_UNRESTRICTED_AUTH,
+        'location-trusted'   => CURLOPT_UNRESTRICTED_AUTH,
+
+        'forbid-reuse'       => CURLOPT_FORBID_REUSE,
+        'fresh-connect'      => CURLOPT_FRESH_CONNECT,
     ];
 
     /**
@@ -99,6 +107,13 @@ abstract class OptionFactory
         CURLOPT_UNRESTRICTED_AUTH => 'UnrestrictedAuth',
         // Get HTTP header for modification date of file
         CURLOPT_FILETIME          => 'FileTime',
+        // Automatically close connection after processing
+        CURLOPT_FORBID_REUSE      => 'ForbidReuse',
+        // Force to use new connection instead of cached
+        CURLOPT_FRESH_CONNECT     => 'FreshConnect',
+        // Scan ~/.netrc file for user credentials
+        CURLOPT_NETRC             => 'Netrc',
+
         /*
         HTTP authentication method(s) to use:
             CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
@@ -117,6 +132,10 @@ abstract class OptionFactory
         CURLOPT_SSLVERSION        => 'SslVersion',
         // Alternative port number to connect to
         CURLOPT_PORT              => 'Port',
+        // Size of the buffer for each read
+        CURLOPT_BUFFERSIZE        => 'BufferSize',
+        // Bit mask to maintain redirection type
+        CURLOPT_POSTREDIR         => 'PostRedir',
 
         // String
         // Which HTTP version to use. "1.0" for CURL_HTTP_VERSION_1_0 or "1.1" for CURL_HTTP_VERSION_1_1
@@ -137,6 +156,10 @@ abstract class OptionFactory
         CURLOPT_COOKIEJAR         => 'CookieJar',
         // Contents of the "Accept-Encoding: " header. This enables decoding of the response
         CURLOPT_ENCODING          => 'Encoding',
+        // Verify existence of a common name in peer certificate, and matches hostname
+        CURLOPT_SSL_VERIFYHOST    => 'SslVerifyHost',
+        // Alternative location to output errors
+        CURLOPT_STDERR            => 'StdErr',
     ];
 
     /**
@@ -171,8 +194,11 @@ abstract class OptionFactory
      */
     public static function getOptionKey($option)
     {
-        if (is_string($option) && array_key_exists($option, self::$optionAliasMap)) {
-            $option = self::$optionAliasMap[$option];
+        if (is_string($option)) {
+            $option = preg_replace('/[ _]+/', '-', strtolower(trim($option)));
+            if (array_key_exists($option, self::$optionAliasMap)) {
+                $option = self::$optionAliasMap[strtolower($option)];
+            }
         }
 
         if (!array_key_exists($option, self::$optionClassMap)) {

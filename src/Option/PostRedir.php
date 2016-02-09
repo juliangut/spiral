@@ -9,21 +9,24 @@
 namespace Jgut\Spiral\Option;
 
 /**
- * cURL CURLOPT_PORT option.
+ * cURL CURLOPT_SSLVERSION option.
  */
-class Port extends OptionInteger
+class PostRedir extends OptionRegex
 {
     /**
      * cURL option.
      *
      * @var int
      */
-    protected $option = CURLOPT_PORT;
+    protected $option = CURLOPT_POSTREDIR;
 
     /**
-     * Maximum valid value.
-     *
-     * @var int
+     * @inheritdoc
      */
-    protected $max = 99999;
+    protected $regex = '/^[124]$/';
+
+    /**
+     * @inheritdoc
+     */
+    protected $message = '"%s" is not valid POST redirection value';
 }
