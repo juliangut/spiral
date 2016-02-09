@@ -74,7 +74,6 @@ class Client
         array $flags = []
     ) {
         $transport = $this->getTransport();
-        $transport->setOption('http_version', $request->getProtocolVersion(), true);
 
         try {
             $transferResponse = $transport->request(

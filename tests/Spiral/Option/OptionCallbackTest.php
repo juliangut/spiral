@@ -18,7 +18,7 @@ class OptionCallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * @cover \Jgut\Spiral\Option\OptionCallback::setValue
      *
-     * @expectedException \Jgut\Spiral\Exception\OptionExcepti_on
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testBadCallback()
     {

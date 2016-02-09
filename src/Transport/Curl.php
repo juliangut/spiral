@@ -15,10 +15,8 @@ use Jgut\Spiral\Transport;
 /**
  * cURL transport handler.
  */
-class Curl implements Transport
+class Curl extends AbstractTransport
 {
-    use TransportAware;
-
     /**
      * Default options.
      *

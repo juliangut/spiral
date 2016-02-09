@@ -8,6 +8,7 @@
 
 namespace Jgut\Spiral\Tests\Transport;
 
+use Jgut\Spiral\Option\OptionFactory;
 use Jgut\Spiral\Transport;
 use Jgut\Spiral\Transport\Curl;
 
@@ -18,10 +19,13 @@ use Jgut\Spiral\Transport\Curl;
 class CurlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Jgut\Spiral\Transport\Curl::setOptions
-     * @cover \Jgut\Spiral\Transport\Curl::setOption
-     * @cover \Jgut\Spiral\Transport\Curl::hasOption
-     * @cover \Jgut\Spiral\Transport\Curl::getOptions
+     * @cover \Jgut\Spiral\Transport\AbstractTransport::setOptions
+     * @cover \Jgut\Spiral\Transport\AbstractTransport::setOption
+     * @cover \Jgut\Spiral\Transport\AbstractTransport::hasOption
+     * @cover \Jgut\Spiral\Transport\AbstractTransport::getOptions
+     * @cover \Jgut\Spiral\Transport\AbstractTransport::removeOption
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testAccessorsMutators()
     {
@@ -34,6 +38,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $transport->setOptions($options);
         $this->assertEquals(1, count($transport->getOptions()));
         $this->assertTrue($transport->hasOption(CURLOPT_VERBOSE));
+        $this->assertTrue($transport->hasOption(OptionFactory::build(CURLOPT_VERBOSE, false)));
         $this->assertEquals(
             $options,
             [$transport->getOptions()[0]->getOption() => $transport->getOptions()[0]->getValue()]
@@ -41,7 +46,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         $transport->removeOption('fake_option');
         $transport->removeOption(CURLOPT_VERBOSE);
+        $transport->removeOption(OptionFactory::build(CURLOPT_VERBOSE, false));
         $this->assertFalse($transport->hasOption(CURLOPT_VERBOSE));
+
+        $transport->setOption('fake_option');
     }
 
     /**

@@ -11,19 +11,19 @@ namespace Jgut\Spiral\Transport;
 use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option;
 use Jgut\Spiral\Option\OptionFactory;
-use Jgut\Spiral\Transport;
+use Jgut\Spiral\Transport as TransportInterface;
 
 /**
  * Common transport trait.
  */
-trait TransportAware
+abstract class AbstractTransport implements TransportInterface
 {
     /**
      * List of cURL options.
      *
      * @var \Jgut\Spiral\Option[]
      */
-    private $options = [];
+    protected $options = [];
 
     /**
      * Retrieve added cURL options.
@@ -125,7 +125,7 @@ trait TransportAware
      */
     public function options($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_OPTIONS, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_OPTIONS, $uri, $headers, $vars);
     }
 
     /**
@@ -139,7 +139,7 @@ trait TransportAware
      */
     public function head($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_HEAD, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_HEAD, $uri, $headers, $vars);
     }
 
     /**
@@ -153,7 +153,7 @@ trait TransportAware
      */
     public function get($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_GET, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_GET, $uri, $headers, $vars);
     }
 
     /**
@@ -168,7 +168,7 @@ trait TransportAware
      */
     public function post($uri, array $headers = [], array $vars = [], array $flags = [])
     {
-        return $this->request(Transport::METHOD_POST, $uri, $headers, $vars, $flags);
+        return $this->request(TransportInterface::METHOD_POST, $uri, $headers, $vars, $flags);
     }
 
     /**
@@ -182,7 +182,7 @@ trait TransportAware
      */
     public function put($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_PUT, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_PUT, $uri, $headers, $vars);
     }
 
     /**
@@ -196,7 +196,7 @@ trait TransportAware
      */
     public function delete($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_DELETE, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_DELETE, $uri, $headers, $vars);
     }
 
     /**
@@ -210,6 +210,6 @@ trait TransportAware
      */
     public function patch($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(Transport::METHOD_PATCH, $uri, $headers, $vars);
+        return $this->request(TransportInterface::METHOD_PATCH, $uri, $headers, $vars);
     }
 }
