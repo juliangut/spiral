@@ -18,7 +18,7 @@ class OptionCallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * @cover \Jgut\Spiral\Option\OptionCallback::setValue
      *
-     * @expectedException \Jgut\Spiral\Exception\OptionException
+     * @expectedException \Jgut\Spiral\Exception\OptionExcepti_on
      */
     public function testBadCallback()
     {
@@ -27,7 +27,7 @@ class OptionCallbackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(CURLOPT_HTTPAUTH, $option->getOption());
         $this->assertEquals('', $option->getValue());
 
-        $option->setValue(false);
+        $option->setValue('false');
     }
 
     /**
@@ -38,9 +38,9 @@ class OptionCallbackTest extends \PHPUnit_Framework_TestCase
         $option = new OptionCallback(CURLOPT_HTTPAUTH);
 
         $option->setCallback(function ($value) {
-            return 'aaa';
+            return $value . ' aaa';
         });
         $option->setValue('bbb');
-        $this->assertEquals('aaa', $option->getValue());
+        $this->assertEquals('bbb aaa', $option->getValue());
     }
 }

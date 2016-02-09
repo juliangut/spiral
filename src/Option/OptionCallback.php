@@ -44,7 +44,7 @@ class OptionCallback extends Option
      */
     public function setValue($value)
     {
-        if ($this->callback === null) {
+        if (!is_callable($this->callback)) {
             throw new OptionException('No callback defined');
         }
 
