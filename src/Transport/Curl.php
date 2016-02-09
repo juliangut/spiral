@@ -18,6 +18,45 @@ use Jgut\Spiral\Transport;
 class Curl extends AbstractTransport
 {
     /**
+     * cURL error map.
+     *
+     * @var array
+     */
+    protected static $errorCategoryMap = [
+        CURLE_FTP_WEIRD_SERVER_REPLY      => 'FTP',
+        CURLE_FTP_ACCESS_DENIED           => 'FTP',
+        CURLE_FTP_USER_PASSWORD_INCORRECT => 'FTP',
+        CURLE_FTP_WEIRD_PASS_REPLY        => 'FTP',
+        CURLE_FTP_WEIRD_USER_REPLY        => 'FTP',
+        CURLE_FTP_WEIRD_PASV_REPLY        => 'FTP',
+        CURLE_FTP_WEIRD_227_FORMAT        => 'FTP',
+        CURLE_FTP_CANT_GET_HOST           => 'FTP',
+        CURLE_FTP_CANT_RECONNECT          => 'FTP',
+        CURLE_FTP_COULDNT_SET_BINARY      => 'FTP',
+        CURLE_FTP_COULDNT_RETR_FILE       => 'FTP',
+        CURLE_FTP_WRITE_ERROR             => 'FTP',
+        CURLE_FTP_QUOTE_ERROR             => 'FTP',
+        CURLE_FTP_COULDNT_STOR_FILE       => 'FTP',
+        CURLE_FTP_COULDNT_SET_ASCII       => 'FTP',
+        CURLE_FTP_PORT_FAILED             => 'FTP',
+        CURLE_FTP_COULDNT_USE_REST        => 'FTP',
+        CURLE_FTP_COULDNT_GET_SIZE        => 'FTP',
+        CURLE_FTP_BAD_DOWNLOAD_RESUME     => 'FTP',
+        CURLE_FTP_SSL_FAILED              => 'FTP',
+        CURLE_SSL_CONNECT_ERROR           => 'SSL',
+        CURLE_SSL_PEER_CERTIFICATE        => 'SSL',
+        CURLE_SSL_ENGINE_NOTFOUND         => 'SSL',
+        CURLE_SSL_ENGINE_SETFAILED        => 'SSL',
+        CURLE_SSL_CERTPROBLEM             => 'SSL',
+        CURLE_SSL_CIPHER                  => 'SSL',
+        CURLE_SSL_CACERT                  => 'SSL',
+        CURLE_LDAP_CANNOT_BIND            => 'LDAP',
+        CURLE_LDAP_SEARCH_FAILED          => 'LDAP',
+        CURLE_LDAP_INVALID_URL            => 'LDAP',
+        CURLE_COULDNT_RESOLVE_PROXY       => 'proxy',
+    ];
+
+    /**
      * Default options.
      *
      * @var array
@@ -76,17 +115,12 @@ class Curl extends AbstractTransport
      */
     public function request($method, $uri, array $headers = [], array $vars = [], array $flags = [])
     {
-        $method = strtoupper($method);
-        if (!defined('\Jgut\Spiral\Transport::METHOD_' . $method)) {
-            throw new TransportException(sprintf('"%s" is not an accepted HTTP method', $method));
-        }
-        $method = constant('\Jgut\Spiral\Transport::METHOD_' . $method);
-
         $this->close();
-
         $this->handler = curl_init();
 
+        $method = strtoupper($method);
         $this->setMethod($this->handler, $method);
+
         $this->forgeOptions($this->handler, $this->options);
         $this->forgeHeaders($this->handler, $headers);
 
@@ -120,13 +154,18 @@ class Curl extends AbstractTransport
 
         $response = $this->execute($this->handler);
 
-        if (curl_errno($this->handler) !== 0) {
-            $error = curl_error($this->handler);
-            $errorNumber = curl_errno($this->handler);
+        if (curl_errno($this->handler) !== CURLE_OK) {
+            $errCode = curl_errno($this->handler);
+
+            $exception = new TransportException(
+                curl_error($this->handler),
+                $errCode,
+                array_key_exists($errCode, static::$errorCategoryMap) ? static::$errorCategoryMap [$errCode] : ''
+            );
 
             $this->close();
 
-            throw new TransportException($error, $errorNumber);
+            throw $exception;
         }
 
         return $response;
@@ -235,6 +274,8 @@ class Curl extends AbstractTransport
     {
         if (is_resource($this->handler)) {
             curl_close($this->handler);
+
+            $this->handler = null;
         }
     }
 }

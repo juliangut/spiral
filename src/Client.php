@@ -66,6 +66,8 @@ class Client
      * @param array                               $flags
      *
      * @return \Psr\Http\Message\RequestInterface
+     *
+     * @throws \Jgut\Spiral\Exception\TransportException
      */
     public function request(
         RequestInterface $request,
@@ -83,13 +85,15 @@ class Client
                 $vars,
                 $flags
             );
-
-            $transferInfo = $transport->responseInfo();
-
-            $transport->close();
         } catch (TransportException $exception) {
-            return $response->withStatus(500, $exception->getMessage());
+            $transport->close();
+
+            // Bubble exception
+            throw $exception;
         }
+
+        $transferInfo = $transport->responseInfo();
+        $transport->close();
 
         $responseHeaders = '';
         $responseContent = $transferResponse;
