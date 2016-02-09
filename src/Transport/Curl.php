@@ -40,6 +40,7 @@ class Curl implements Transport
         CURLOPT_UNRESTRICTED_AUTH => false,
         CURLOPT_RETURNTRANSFER    => true,
         CURLOPT_HEADER            => true,
+        CURLOPT_FORBID_REUSE      => true,
         CURLOPT_FRESH_CONNECT     => true,
     ];
 

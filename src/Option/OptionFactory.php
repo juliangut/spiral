@@ -85,6 +85,8 @@ abstract class OptionFactory
      */
     private static $typeMap = [
         // Boolean
+        // Perform proxy authentication and connection setup but no data transfer
+        CURLOPT_CONNECT_ONLY      => ['type' => 'bool'],
         // Convert Unix newlines to CRLF newlines on transfers
         CURLOPT_CRLF              => ['type' => 'bool'],
         // Include request header in the output
@@ -111,6 +113,8 @@ abstract class OptionFactory
         CURLOPT_FRESH_CONNECT     => ['type' => 'bool'],
         // Scan ~/.netrc file for user credentials
         CURLOPT_NETRC             => ['type' => 'bool'],
+        // Tunnel through a given HTTP proxy
+        CURLOPT_HTTPPROXYTUNNEL   => ['type' => 'bool'],
 
         // Integer
         // Number of seconds to wait while trying to connect. 0 to wait indefinitely
@@ -121,6 +125,8 @@ abstract class OptionFactory
         CURLOPT_MAXREDIRS      => ['type' => 'int'],
         // Alternative port number to connect to
         CURLOPT_PORT           => ['type' => 'int', 'max' => 99999],
+        // Port number of the proxy to connect to
+        CURLOPT_PROXYPORT      => ['type' => 'int'],
         // Size of the buffer for each read
         CURLOPT_BUFFERSIZE     => ['type' => 'int'],
 
@@ -133,6 +139,8 @@ abstract class OptionFactory
         CURLOPT_ENCODING  => ['type' => 'string'],
         // Alternative location to output errors
         CURLOPT_STDERR    => ['type' => 'string'],
+        // HTTP proxy to tunnel requests through
+        CURLOPT_PROXY     => ['type' => 'string'],
 
         // File
         // Name of the file containing the cookie data
@@ -141,7 +149,7 @@ abstract class OptionFactory
         CURLOPT_COOKIEJAR  => ['type' => 'file'],
 
         // Regex
-        // Which SSL version (2 or 3) to use
+        // Which SSL/TLS version to use
         CURLOPT_SSLVERSION        => [
             'type' => 'regex',
             'regex' => '/^[0-6]$/',
@@ -150,29 +158,63 @@ abstract class OptionFactory
         // Verify existence of a common name in peer certificate, and matches hostname
         CURLOPT_SSL_VERIFYHOST => [
             'type' => 'regex',
-            'regex' => '/^[12]$/',
+            'regex' => '/^1|2$/',
             'message' => '"%s" is not valid SSL verify host value'
         ],
         // Bit mask to maintain redirection type
         CURLOPT_POSTREDIR => [
             'type' => 'regex',
-            'regex' => '/^[124]$/',
+            'regex' => '/^1|2|4$/',
             'message' => '"%s" is not valid POST redirection value'
         ],
-        // Username and password formatted as "[username]:[password]" to use for the connection
+        /*
+         * Proxy type
+         * 0: CURLPROXY_HTTP             4: CURLPROXY_SOCKS4,
+         * 5: CURLPROXY_SOCKS5           6: CURLPROXY_SOCKS4A
+         * 7: CURLPROXY_SOCKS5_HOSTNAME
+         */
+        CURLOPT_PROXYTYPE => [
+            'type' => 'regex',
+            'regex' => '/^0|4|5|6|7$/',
+            'message' => '"%s" is not a valid CURLOPT_PROXYTYPE value'
+        ],
+        // Username and password formatted as "username:password" to use for the connection
         CURLOPT_USERPWD => [
             'type' => 'regex',
             'regex' => '/^[^\n:]+:[^\n:]+$/',
             'message' => '"%s" is not a valid CURLOPT_USERPWD value'
         ],
-
-        // Callback
+        // Username and password formatted as "username:password" to use for proxy
+        CURLOPT_PROXYUSERPWD => [
+            'type' => 'regex',
+            'regex' => '/^[^\n:]+:[^\n:]+$/',
+            'message' => '"%s" is not a valid CURLOPT_PROXYUSERPWD value'
+        ],
         /*
-        HTTP authentication method(s) to use:
-            CURLAUTH_BASIC, CURLAUTH_DIGEST, CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
-        Currently only CURLAUTH_BASIC is available and implemented as boolean
-        */
-        CURLOPT_HTTPAUTH     => ['type' => 'callback'],
+         * HTTP authentication method(s)
+         *
+         *   1: CURLAUTH_BASIC           2: CURLAUTH_DIGEST
+         *   4: CURLAUTH_GSSNEGOTIATE    8: CURLAUTH_NTLM
+         * -17: CURLAUTH_ANY           -18: CURLAUTH_ANYSAFE
+         */
+        CURLOPT_HTTPAUTH => [
+            'type' => 'regex',
+            'regex' => '/^1|2|4|8|-17|-18$/',
+            'message' => '"%s" is not a valid CURLOPT_HTTPAUTH value'
+        ],
+        /*
+         * HTTP authentication method(s) for the proxy
+         *
+         *   1: CURLAUTH_BASIC           2: CURLAUTH_DIGEST
+         *   4: CURLAUTH_GSSNEGOTIATE    8: CURLAUTH_NTLM
+         * -17: CURLAUTH_ANY           -18: CURLAUTH_ANYSAFE
+         */
+        CURLOPT_PROXYAUTH => [
+            'type' => 'regex',
+            'regex' => '/^1|2|4|8|-17|-18$/',
+            'message' => '"%s" is not a valid CURLOPT_PROXYAUTH value'
+        ],
+
         // Which HTTP version to use. "1.0" for CURL_HTTP_VERSION_1_0 or "1.1" for CURL_HTTP_VERSION_1_1
         CURLOPT_HTTP_VERSION => ['type' => 'callback'],
         // Contents of the "Cookie: " header to be used in the HTTP request. Can be an array
@@ -271,12 +313,6 @@ abstract class OptionFactory
     protected static function configureCallback(OptionCallback $optionClass, $option)
     {
         switch ($option) {
-            case CURLOPT_HTTPAUTH:
-                $optionClass->setCallback(function ($value) {
-                    return $value === false ? false : CURLAUTH_BASIC;
-                });
-                break;
-
             case CURLOPT_HTTP_VERSION:
                 $optionClass->setCallback(function ($value) {
                     $value = number_format((float) $value, 1, '.', '');

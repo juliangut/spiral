@@ -78,11 +78,6 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallbackCreation()
     {
-        $option = OptionFactory::build(CURLOPT_HTTPAUTH, true);
-
-        $this->assertEquals(CURLOPT_HTTPAUTH, $option->getOption());
-        $this->assertEquals(CURLAUTH_BASIC, $option->getValue());
-
         $cookies = [
             'cookieOne' => 'one',
             'cookieTwo' => 'two',
