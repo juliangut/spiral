@@ -22,7 +22,7 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnknownOptionKey()
     {
-        OptionFactory::getOptionKey('ficticiuos_option');
+        OptionFactory::getOptionKey('fictitious_option');
     }
 
     /**
@@ -40,7 +40,72 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongCreation()
     {
-        $option = OptionFactory::create('referer', 'referer');
+        OptionFactory::build('fictitious_option', 'value');
+    }
+
+    /**
+     * @cover \Jgut\Spiral\Option\OptionFactory::build
+     */
+    public function testRegexCreation()
+    {
+        $option = OptionFactory::build(CURLOPT_USERPWD, 'user:password');
+
+        $this->assertEquals(CURLOPT_USERPWD, $option->getOption());
+    }
+
+    /**
+     * @cover \Jgut\Spiral\Option\OptionFactory::build
+     */
+    public function testIntCreation()
+    {
+        $option = OptionFactory::build(CURLOPT_PORT, 100);
+
+        $this->assertEquals(CURLOPT_PORT, $option->getOption());
+    }
+
+    /**
+     * @cover \Jgut\Spiral\Option\OptionFactory::build
+     */
+    public function testDefaultCreation()
+    {
+        $option = OptionFactory::build(CURLOPT_STDERR, 'location');
+
+        $this->assertEquals(CURLOPT_STDERR, $option->getOption());
+    }
+
+    /**
+     * @cover \Jgut\Spiral\Option\OptionFactory::build
+     */
+    public function testCallbackCreation()
+    {
+        $option = OptionFactory::build(CURLOPT_HTTPAUTH, true);
+
+        $this->assertEquals(CURLOPT_HTTPAUTH, $option->getOption());
+        $this->assertEquals(CURLAUTH_BASIC, $option->getValue());
+
+        $cookies = [
+            'cookieOne' => 'one',
+            'cookieTwo' => 'two',
+        ];
+        $option = OptionFactory::build(CURLOPT_COOKIE, $cookies);
+
+        $this->assertEquals(CURLOPT_COOKIE, $option->getOption());
+        $this->assertEquals('cookieOne=one; cookieTwo=two', $option->getValue());
+    }
+
+    /**
+     * @cover \Jgut\Spiral\Option\OptionFactory::build
+     *
+     * @expectedException \Jgut\Spiral\Exception\OptionException
+     */
+    public function testHttpVersionCallbackCreation()
+    {
+        $option = OptionFactory::build(CURLOPT_HTTP_VERSION, 1.1);
+
+        $this->assertEquals(CURLOPT_HTTP_VERSION, $option->getOption());
+        $this->assertEquals(CURL_HTTP_VERSION_1_1, $option->getValue());
+
+        OptionFactory::build(CURLOPT_HTTP_VERSION, '1.5');
     }
 
     /**
@@ -48,7 +113,7 @@ class OptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreation()
     {
-        $option = OptionFactory::create(CURLOPT_REFERER, 'referer');
+        $option = OptionFactory::build(CURLOPT_REFERER, 'referer');
 
         $this->assertEquals(CURLOPT_REFERER, $option->getOption());
     }

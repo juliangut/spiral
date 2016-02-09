@@ -9,14 +9,22 @@
 namespace Jgut\Spiral\Option;
 
 /**
- * cURL CURLOPT_BUFFERSIZE option.
+ * Boolean cURL option wrapper.
  */
-class BufferSize extends OptionInteger
+class OptionBool extends Option
 {
     /**
-     * cURL option.
-     *
-     * @var int
+     * {@inheritdoc}
      */
-    protected $option = CURLOPT_BUFFERSIZE;
+    protected $value = false;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param bool $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value === true;
+    }
 }

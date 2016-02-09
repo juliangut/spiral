@@ -20,6 +20,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Jgut\Spiral\Client::__construct
+     * @covers Jgut\Spiral\Client::setTransport
+     * @covers Jgut\Spiral\Client::getTransport
+     */
+    public function testMutatorAccessor()
+    {
+        $transport = $this->getMock('\Jgut\Spiral\Transport');
+
+        $client = new Client();
+
+        $client->setTransport($transport);
+
+        $this->assertEquals($transport, $client->getTransport());
+    }
+
+    /**
+     * @covers Jgut\Spiral\Client::__construct
      * @covers Jgut\Spiral\Client::request
      * @covers Jgut\Spiral\Client::getTransport
      */

@@ -8,7 +8,7 @@
 
 namespace Jgut\Spiral\Tests\Option;
 
-use Jgut\Spiral\Option\Referer;
+use Jgut\Spiral\Option\OptionString;
 
 /**
  * @cover \Jgut\Spiral\Option\OptionString
@@ -20,8 +20,12 @@ class OptionStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testAccessors()
     {
-        $option = new Referer('referer');
+        $option = new OptionString(CURLOPT_REFERER);
+
         $this->assertEquals(CURLOPT_REFERER, $option->getOption());
-        $this->assertEquals('referer', $option->getValue());
+        $this->assertEquals('', $option->getValue());
+
+        $option->setValue('value');
+        $this->assertEquals('value', $option->getValue());
     }
 }

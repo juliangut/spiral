@@ -9,23 +9,25 @@
 namespace Jgut\Spiral\Option;
 
 use Jgut\Spiral\Exception\OptionException;
-use Jgut\Spiral\Option;
 
 /**
  * File cURL option wrapper.
  */
-abstract class OptionFile implements Option
+class OptionFile extends Option
 {
-    use OptionAware;
+    /**
+     * {@inheritdoc}
+     */
+    protected $value = '';
 
     /**
-     * Set option value.
+     * {@inheritdoc}
      *
-     * @param bool $value
+     * @param string $value
      *
      * @throws \Jgut\Spiral\Exception\OptionException
      */
-    protected function setValue($value)
+    public function setValue($value)
     {
         $value = trim($value);
         if (!is_file($value) || !is_readable($value)) {

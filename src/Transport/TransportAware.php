@@ -54,7 +54,7 @@ trait TransportAware
     {
         if (!$option instanceof Option) {
             try {
-                $option = OptionFactory::create(OptionFactory::getOptionKey($option), $value);
+                $option = OptionFactory::build($option, $value);
             } catch (OptionException $exception) {
                 if ($quiet !== true) {
                     throw $exception;

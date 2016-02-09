@@ -8,27 +8,33 @@
 
 namespace Jgut\Spiral\Tests\Option;
 
-use Jgut\Spiral\Option\Encoding;
-use Jgut\Spiral\Option\HeaderOut;
+use Jgut\Spiral\Option\Option;
 
 /**
  * @cover \Jgut\Spiral\Option\OptionAware
  */
-class OptionAwareTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @cover \Jgut\Spiral\Option\OptionAware::__construct
      * @cover \Jgut\Spiral\Option\OptionAware::getOption
      * @cover \Jgut\Spiral\Option\OptionAware::getValue
-     * @cover \Jgut\Spiral\Option\OptionAware::__toString
+     * @cover \Jgut\Spiral\Option\OptionAware::setValue
      */
     public function testAccessors()
     {
-        $option = new Encoding('UTF8');
-        $this->assertEquals(CURLOPT_ENCODING, $option->getOption());
-        $this->assertEquals('UTF8', $option->getValue());
+        $option = new Option(CURLOPT_ENCODING);
 
-        $option = new HeaderOut(true);
-        $this->assertEquals(CURLINFO_HEADER_OUT, $option->getOption());
+        $this->assertEquals(CURLOPT_ENCODING, $option->getOption());
+        $this->assertNull($option->getValue());
+
+        $option->setValue(true);
+        $this->assertEquals(true, $option->getValue());
+
+        $option->setValue(1);
+        $this->assertEquals(1, $option->getValue());
+
+        $option->setValue('true');
+        $this->assertEquals('true', $option->getValue());
     }
 }

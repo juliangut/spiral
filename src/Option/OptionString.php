@@ -8,21 +8,22 @@
 
 namespace Jgut\Spiral\Option;
 
-use Jgut\Spiral\Option;
-
 /**
  * String cURL option wrapper.
  */
-abstract class OptionString implements Option
+class OptionString extends Option
 {
-    use OptionAware;
+    /**
+     * {@inheritdoc}
+     */
+    protected $value = '';
 
     /**
-     * Set option value.
+     * {@inheritdoc}
      *
      * @param string $value
      */
-    protected function setValue($value)
+    public function setValue($value)
     {
         $this->value = trim($value);
     }

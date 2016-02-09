@@ -9,15 +9,12 @@
 namespace Jgut\Spiral\Option;
 
 use Jgut\Spiral\Exception\OptionException;
-use Jgut\Spiral\Option;
 
 /**
  * Regex cURL option wrapper.
  */
-abstract class OptionRegex implements Option
+class OptionRegex extends Option
 {
-    use OptionAware;
-
     /**
      * Regex to check.
      *
@@ -30,16 +27,41 @@ abstract class OptionRegex implements Option
      *
      * @var string
      */
-    protected $message = '"%s" is not valid';
+    protected $message = '"%s" is not a valid value';
 
     /**
-     * Set option value.
+     * {@inheritdoc}
+     */
+    protected $value = '';
+
+    /**
+     * Set regex expression.
+     *
+     * @param $regex
+     */
+    public function setRegex($regex)
+    {
+        $this->regex = $regex;
+    }
+
+    /**
+     * Set fail message.
+     *
+     * @param $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @param string $value
      *
      * @throws \Jgut\Spiral\Exception\OptionException
      */
-    protected function setValue($value)
+    public function setValue($value)
     {
         $value = trim($value);
 

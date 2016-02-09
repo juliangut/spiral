@@ -8,7 +8,7 @@
 
 namespace Jgut\Spiral\Tests\Option;
 
-use Jgut\Spiral\Option\CookieFile;
+use Jgut\Spiral\Option\OptionFile;
 
 /**
  * @cover \Jgut\Spiral\Option\OptionFile
@@ -22,7 +22,12 @@ class OptionFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoAccess()
     {
-        new CookieFile('ficticiousFile');
+        $option = new OptionFile(CURLOPT_COOKIEFILE);
+
+        $this->assertEquals(CURLOPT_COOKIEFILE, $option->getOption());
+        $this->assertEquals('', $option->getValue());
+
+        $option->setValue('fake_file');
     }
 
     /**
@@ -30,11 +35,12 @@ class OptionFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testAccessors()
     {
-        $file = sys_get_temp_dir() . '/JgutCurlyOptionFile';
+        $file = sys_get_temp_dir() . '/JgutSpiralOptionFile';
         touch($file);
 
-        $option = new CookieFile($file);
-        $this->assertEquals(CURLOPT_COOKIEFILE, $option->getOption());
+        $option = new OptionFile(CURLOPT_COOKIEFILE);
+
+        $option->setValue($file);
         $this->assertEquals($file, $option->getValue());
 
         unlink($file);

@@ -21,6 +21,13 @@ interface Option
     public function getOption();
 
     /**
+     * Set option value.
+     *
+     * @param mixed $value
+     */
+    public function setValue($value);
+
+    /**
      * Get cURL option value.
      *
      * @return mixed

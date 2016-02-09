@@ -8,15 +8,11 @@
 
 namespace Jgut\Spiral\Option;
 
-use Jgut\Spiral\Option;
-
 /**
  * Integer cURL option wrapper.
  */
-abstract class OptionInteger implements Option
+class OptionInt extends Option
 {
-    use OptionAware;
-
     /**
      * Minimum valid value.
      *
@@ -32,11 +28,36 @@ abstract class OptionInteger implements Option
     protected $max;
 
     /**
-     * Set option value.
+     * {@inheritdoc}
+     */
+    protected $value = 0;
+
+    /**
+     * Set minimum value.
+     *
+     * @param int $min
+     */
+    public function setMin($min)
+    {
+        $this->min = (int) $min;
+    }
+
+    /**
+     * Set maximum value.
+     *
+     * @param int $max
+     */
+    public function setMax($max)
+    {
+        $this->max = (int) $max;
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @param int $value
      */
-    protected function setValue($value)
+    public function setValue($value)
     {
         $value = max($this->min, $value);
 

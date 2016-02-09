@@ -8,11 +8,20 @@
 
 namespace Jgut\Spiral\Option;
 
+use Jgut\Spiral\Option as OptionInterface;
+
 /**
- * cURL options trait.
+ * Basic cURL options.
  */
-trait OptionAware
+class Option implements OptionInterface
 {
+    /**
+     * Option.
+     *
+     * @var int
+     */
+    protected $option;
+
     /**
      * Option value.
      *
@@ -23,11 +32,11 @@ trait OptionAware
     /**
      * Create cURL option.
      *
-     * @param mixed $value
+     * @param int $option
      */
-    public function __construct($value)
+    public function __construct($option)
     {
-        $this->setValue($value);
+        $this->option = $option;
     }
 
     /**
@@ -36,6 +45,14 @@ trait OptionAware
     public function getOption()
     {
         return $this->option;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
     }
 
     /**
