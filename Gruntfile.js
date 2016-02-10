@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     phpcs: {
       options: {
         bin: './vendor/bin/phpcs',
-        standard: './phpcs.xml'
+        standard: 'PSR2'
       },
       application: {
         dir: [
