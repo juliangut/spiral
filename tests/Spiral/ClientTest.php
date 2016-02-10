@@ -11,8 +11,8 @@ namespace Jgut\Spiral\Tests;
 
 use Jgut\Spiral\Client;
 use Jgut\Spiral\Exception\TransportException;
-use Phly\Http\Request;
-use Phly\Http\Response;
+use Zend\Diactoros\Request;
+use Zend\Diactoros\Response;
 
 /**
  * @cover \Jgut\Spiral\Client

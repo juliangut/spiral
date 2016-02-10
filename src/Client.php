@@ -13,6 +13,7 @@ use Jgut\Spiral\Exception\TransportException;
 use Jgut\Spiral\Transport\Curl;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Zend\Diactoros\Stream;
 
 /**
  * PSR7 aware client.
@@ -175,12 +176,9 @@ class Client
             $response = $response->withHeader($name, (string) $value);
         }
 
-        $body = $response->getBody();
-        if ($body->isSeekable()) {
-            $body->rewind();
-        }
+        $body = new Stream('php://temp', 'r+');
         $body->write($content);
 
-        return $response;
+        return $response->withBody($body);
     }
 }

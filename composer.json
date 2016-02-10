@@ -21,14 +21,14 @@
         "php": ">=5.5",
         "ext-curl": "*",
         "lib-curl": "*",
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0",
+        "zendframework/zend-diactoros": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5",
         "squizlabs/php_codesniffer": "~2.3",
         "phpmd/phpmd": "~2.2",
-        "sebastian/phpcpd": "~2.0",
-        "phly/http": "^0.14.1"
+        "sebastian/phpcpd": "~2.0"
     },
     "autoload": {
         "psr-4": {
