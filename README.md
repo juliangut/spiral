@@ -1,9 +1,10 @@
 [![Latest Version](https://img.shields.io/packagist/vpre/juliangut/spiral.svg?style=flat-square)](https://packagist.org/packages/juliangut/spiral)
-[![License](https://img.shields.io/packagist/l/juliangut/spiral.svg?style=flat-square)](https://github.com/juliangut/spiral/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/juliangut/spiral.svg?style=flat-square)](https://github.com/juliangut/spiral/blob/master/LICENSE)
 
 [![Build status](https://img.shields.io/travis/juliangut/spiral.svg?style=flat-square)](https://travis-ci.org/juliangut/spiral)
+[![Style](https://styleci.io/repos/45148606/shield)](https://styleci.io/repos/45148606)
 [![Code Quality](https://img.shields.io/scrutinizer/g/juliangut/spiral.svg?style=flat-square)](https://scrutinizer-ci.com/g/juliangut/spiral)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/juliangut/spiral.svg?style=flat-square)](https://scrutinizer-ci.com/g/juliangut/spiral)
+[![Code Coverage](https://img.shields.io/coveralls/juliangut/spiral.svg?style=flat-square)](https://coveralls.io/github/juliangut/spiral)
 [![Total Downloads](https://img.shields.io/packagist/dt/juliangut/spiral.svg?style=flat-square)](https://packagist.org/packages/juliangut/spiral)
 
 # PSR7 aware cURL client
