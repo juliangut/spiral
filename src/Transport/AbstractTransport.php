@@ -3,6 +3,7 @@
  * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
  *
  * @link https://github.com/juliangut/spiral for the canonical source repository
+ *
  * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
  */
 
@@ -108,7 +109,7 @@ abstract class AbstractTransport implements TransportInterface
         $this->options = array_filter(
             $this->options,
             function ($transportOption) use ($option) {
-                /** @var \Jgut\Spiral\Option $transportOption */
+                /* @var \Jgut\Spiral\Option $transportOption */
                 return !($transportOption->getOption() === $option);
             }
         );

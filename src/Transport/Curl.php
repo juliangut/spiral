@@ -3,13 +3,13 @@
  * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
  *
  * @link https://github.com/juliangut/spiral for the canonical source repository
+ *
  * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
  */
 
 namespace Jgut\Spiral\Transport;
 
 use Jgut\Spiral\Exception\TransportException;
-use Jgut\Spiral\Option;
 use Jgut\Spiral\Transport;
 
 /**
@@ -175,6 +175,7 @@ class Curl extends AbstractTransport
      * Isolate curl execution.
      *
      * @param resource $handler
+     *
      * @return string
      */
     protected function execute($handler)

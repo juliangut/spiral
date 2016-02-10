@@ -3,14 +3,13 @@
  * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
  *
  * @link https://github.com/juliangut/spiral for the canonical source repository
+ *
  * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
  */
 
 namespace Jgut\Spiral\Option;
 
 use Jgut\Spiral\Exception\OptionException;
-use Jgut\Spiral\Option;
-use Jgut\Spiral\Option\OptionCallback;
 
 /**
  * cURL option wrappers factory.
@@ -153,19 +152,19 @@ abstract class OptionFactory
         CURLOPT_SSLVERSION        => [
             'type' => 'regex',
             'regex' => '/^[0-6]$/',
-            'message' => '"%s" is not valid SSL version'
+            'message' => '"%s" is not valid SSL version',
         ],
         // Verify existence of a common name in peer certificate, and matches hostname
         CURLOPT_SSL_VERIFYHOST => [
             'type' => 'regex',
             'regex' => '/^1|2$/',
-            'message' => '"%s" is not valid SSL verify host value'
+            'message' => '"%s" is not valid SSL verify host value',
         ],
         // Bit mask to maintain redirection type
         CURLOPT_POSTREDIR => [
             'type' => 'regex',
             'regex' => '/^1|2|4$/',
-            'message' => '"%s" is not valid POST redirection value'
+            'message' => '"%s" is not valid POST redirection value',
         ],
         /*
          * Proxy type
@@ -176,19 +175,19 @@ abstract class OptionFactory
         CURLOPT_PROXYTYPE => [
             'type' => 'regex',
             'regex' => '/^0|4|5|6|7$/',
-            'message' => '"%s" is not a valid CURLOPT_PROXYTYPE value'
+            'message' => '"%s" is not a valid CURLOPT_PROXYTYPE value',
         ],
         // Username and password formatted as "username:password" to use for the connection
         CURLOPT_USERPWD => [
             'type' => 'regex',
             'regex' => '/^[^\n:]+:[^\n:]+$/',
-            'message' => '"%s" is not a valid CURLOPT_USERPWD value'
+            'message' => '"%s" is not a valid CURLOPT_USERPWD value',
         ],
         // Username and password formatted as "username:password" to use for proxy
         CURLOPT_PROXYUSERPWD => [
             'type' => 'regex',
             'regex' => '/^[^\n:]+:[^\n:]+$/',
-            'message' => '"%s" is not a valid CURLOPT_PROXYUSERPWD value'
+            'message' => '"%s" is not a valid CURLOPT_PROXYUSERPWD value',
         ],
         /*
          * HTTP authentication method(s)
@@ -200,7 +199,7 @@ abstract class OptionFactory
         CURLOPT_HTTPAUTH => [
             'type' => 'regex',
             'regex' => '/^1|2|4|8|-17|-18$/',
-            'message' => '"%s" is not a valid CURLOPT_HTTPAUTH value'
+            'message' => '"%s" is not a valid CURLOPT_HTTPAUTH value',
         ],
         /*
          * HTTP authentication method(s) for the proxy
@@ -212,7 +211,7 @@ abstract class OptionFactory
         CURLOPT_PROXYAUTH => [
             'type' => 'regex',
             'regex' => '/^1|2|4|8|-17|-18$/',
-            'message' => '"%s" is not a valid CURLOPT_PROXYAUTH value'
+            'message' => '"%s" is not a valid CURLOPT_PROXYAUTH value',
         ],
 
         // Which HTTP version to use. "1.0" for CURL_HTTP_VERSION_1_0 or "1.1" for CURL_HTTP_VERSION_1_1
@@ -227,9 +226,9 @@ abstract class OptionFactory
      * @param int|string $option
      * @param mixed      $value
      *
-     * @return \Jgut\Spiral\Option
-     *
      * @throws \Jgut\Spiral\Exception\OptionException
+     *
+     * @return \Jgut\Spiral\Option
      */
     public static function build($option, $value)
     {
@@ -245,7 +244,7 @@ abstract class OptionFactory
 
         switch (strtolower($optionDefinition['type'])) {
             case 'regex':
-                /** @var \Jgut\Spiral\Option\OptionRegex $optionClass */
+                /* @var \Jgut\Spiral\Option\OptionRegex $optionClass */
                 $optionClass->setRegex($optionDefinition['regex']);
                 if (array_key_exists('message', $optionDefinition)) {
                     $optionClass->setMessage($optionDefinition['message']);
@@ -253,7 +252,7 @@ abstract class OptionFactory
                 break;
 
             case 'int':
-                /** @var \Jgut\Spiral\Option\OptionInt $optionClass */
+                /* @var \Jgut\Spiral\Option\OptionInt $optionClass */
                 $optionClass->setMin(array_key_exists('min', $optionDefinition) ? $optionDefinition['min'] : 0);
                 if (array_key_exists('max', $optionDefinition)) {
                     $optionClass->setMax($optionDefinition['max']);
@@ -275,9 +274,9 @@ abstract class OptionFactory
      *
      * @param int|string $option
      *
-     * @return int
-     *
      * @throws \Jgut\Spiral\Exception\OptionException
+     *
+     * @return int
      */
     public static function getOptionKey($option)
     {

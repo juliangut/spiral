@@ -3,6 +3,7 @@
  * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
  *
  * @link https://github.com/juliangut/spiral for the canonical source repository
+ *
  * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
  */
 
@@ -40,7 +41,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getOption()
     {
@@ -48,7 +49,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setValue($value)
     {
@@ -56,7 +57,7 @@ class Option implements OptionInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getValue()
     {

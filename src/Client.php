@@ -3,6 +3,7 @@
  * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
  *
  * @link https://github.com/juliangut/spiral for the canonical source repository
+ *
  * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
  */
 
@@ -65,9 +66,9 @@ class Client
      * @param array                               $vars
      * @param array                               $flags
      *
-     * @return \Psr\Http\Message\RequestInterface
-     *
      * @throws \Jgut\Spiral\Exception\TransportException
+     *
+     * @return \Psr\Http\Message\RequestInterface
      */
     public function request(
         RequestInterface $request,
