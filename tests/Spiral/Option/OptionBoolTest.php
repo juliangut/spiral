@@ -29,7 +29,7 @@ class OptionBoolTest extends \PHPUnit_Framework_TestCase
         $option->setValue(true);
         $this->assertTrue($option->getValue());
 
-        $option->setValue('true');
+        $option->setValue('string');
         $this->assertFalse($option->getValue());
     }
 }

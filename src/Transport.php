@@ -41,7 +41,7 @@ interface Transport
     /**
      * Retrieve response information.
      *
-     * @param int $option
+     * @param int|null $option
      *
      * @return mixed|null
      */

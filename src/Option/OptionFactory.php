@@ -21,7 +21,7 @@ abstract class OptionFactory
      *
      * @var array
      */
-    private static $aliasMap = [
+    protected static $aliasMap = [
         'http-header'        => CURLOPT_HTTPHEADER,
 
         'crlf'               => CURLOPT_CRLF,
@@ -82,7 +82,7 @@ abstract class OptionFactory
      *
      * @var array
      */
-    private static $typeMap = [
+    protected static $typeMap = [
         // Boolean
         // Perform proxy authentication and connection setup but no data transfer
         CURLOPT_CONNECT_ONLY      => ['type' => 'bool'],

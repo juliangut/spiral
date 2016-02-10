@@ -27,7 +27,7 @@ class Client
     private $transport;
 
     /**
-     * @param \Jgut\Spiral\Transport $transport
+     * @param \Jgut\Spiral\Transport|null $transport
      */
     public function __construct(Transport $transport = null)
     {
@@ -68,7 +68,7 @@ class Client
      *
      * @throws \Jgut\Spiral\Exception\TransportException
      *
-     * @return \Psr\Http\Message\RequestInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function request(
         RequestInterface $request,

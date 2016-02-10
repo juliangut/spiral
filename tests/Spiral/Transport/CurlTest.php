@@ -145,7 +145,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     /**
      * Provide HTTP methods.
      *
-     * @return array
+     * @return array[]
      */
     public function methodProvider()
     {
