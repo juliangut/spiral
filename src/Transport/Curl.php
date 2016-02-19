@@ -250,7 +250,7 @@ class Curl extends AbstractTransport
     public function responseInfo($option = null)
     {
         if (!is_resource($this->handler)) {
-            return null;
+            return;
         }
 
         if ($option !== null) {

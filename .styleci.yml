@@ -9,7 +9,6 @@ enabled:
   - linebreak_after_opening_tag
   - lowercase_cast
   - native_function_casing
-  - no_blank_lines_before_namespace
   - no_blank_lines_between_uses
   - no_duplicate_semicolons
   - no_leading_import_slash
