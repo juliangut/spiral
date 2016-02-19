@@ -11,7 +11,6 @@ enabled:
   - method_separation
   - native_function_casing
   - no_blank_lines_after_class_opening
-  - no_blank_lines_after_phpdoc
   - no_blank_lines_between_uses
   - no_duplicate_semicolons
   - no_leading_import_slash
