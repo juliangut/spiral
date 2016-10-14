@@ -126,8 +126,8 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $method
      * @param string $shorthand
+     * @param int    $expectedCode
      *
-     * @param int $expectedCode
      * @dataProvider methodProvider
      */
     public function testRequestMethods($method, $shorthand, $expectedCode)
