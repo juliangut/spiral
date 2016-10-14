@@ -168,7 +168,7 @@ class Client
         }
 
         if (array_key_exists('Status', $headers)) {
-            $response = $response->withStatus((int)$headers['Status']);
+            $response = $response->withStatus((int) $headers['Status']);
             unset($headers['Status']);
         }
 
