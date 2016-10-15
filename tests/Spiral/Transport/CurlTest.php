@@ -31,7 +31,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $options = [CURLOPT_VERBOSE => false];
 
         $transport->setOptions($options);
-        static::assertEquals(1, count($transport->getOptions()));
+        static::assertCount(1, $transport->getOptions());
         static::assertTrue($transport->hasOption(CURLOPT_VERBOSE));
         static::assertTrue($transport->hasOption(OptionFactory::build(CURLOPT_VERBOSE, false)));
         static::assertEquals(
@@ -81,19 +81,6 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $transport->close();
     }
 
-    public function testRequestWithVars()
-    {
-        $transport = Curl::createFromDefaults();
-
-        $transport->request(Transport::METHOD_GET, 'http://www.php.net', [], ['var' => 'value']);
-        static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
-
-        $transport->request(Transport::METHOD_POST, 'http://www.php.net', [], ['var' => 'value']);
-        static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
-
-        $transport->close();
-    }
-
     /**
      * @param string $method
      * @param string $shorthand
@@ -104,15 +91,11 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function testRequestMethods($method, $shorthand, $expectedCode)
     {
         $transport = Curl::createFromDefaults();
-        $transport->setOption(CURLINFO_HEADER_OUT, true);
 
         $transport->request($method, 'http://www.php.net');
-        if ($transport->responseInfo(CURLINFO_HTTP_CODE) !== $expectedCode) {
-            var_dump($transport->responseInfo());
-        }
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
-        call_user_func([$transport, $shorthand], 'http://www.php.net');
+        $transport->{$shorthand}('http://www.php.net');
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
@@ -129,9 +112,40 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             [Transport::METHOD_OPTIONS, 'options', 200],
             [Transport::METHOD_HEAD, 'head', 200],
             [Transport::METHOD_GET, 'get', 200],
+            [Transport::METHOD_DELETE, 'delete', 200],
+        ];
+    }
+
+    /**
+     * @param string $method
+     * @param string $shorthand
+     * @param int    $expectedCode
+     *
+     * @dataProvider methodPayloadProvider
+     */
+    public function testRequestWithPayload($method, $shorthand, $expectedCode)
+    {
+        $transport = Curl::createFromDefaults();
+
+        $transport->request($method, 'http://www.php.net', [], ['var' => 'value']);
+        static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
+
+        $transport->{$shorthand}('http://www.php.net', [], ['var' => 'value']);
+        static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
+
+        $transport->close();
+    }
+
+    /**
+     * Provide HTTP methods with payload.
+     *
+     * @return array[]
+     */
+    public function methodPayloadProvider()
+    {
+        return [
             [Transport::METHOD_POST, 'post', 200],
             [Transport::METHOD_PUT, 'put', 200],
-            [Transport::METHOD_DELETE, 'delete', 200],
             [Transport::METHOD_PATCH, 'patch', 200],
         ];
     }
