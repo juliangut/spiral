@@ -89,7 +89,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($transport->responseInfo());
 
-        $transport->request(Transport::METHOD_GET, 'http://www.linuxfoundation.org', ['Accept-Charset' => 'utf-8']);
+        $transport->request(Transport::METHOD_GET, 'http://www.php.net', ['Accept-Charset' => 'utf-8']);
 
         $this->assertInternalType('array', $transport->responseInfo());
         $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
@@ -104,10 +104,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     {
         $transport = Curl::createFromDefaults();
 
-        $transport->request(Transport::METHOD_GET, 'http://www.linuxfoundation.org', [], ['var' => 'value']);
+        $transport->request(Transport::METHOD_GET, 'http://www.php.net', [], ['var' => 'value']);
         $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
-        $transport->request(Transport::METHOD_POST, 'http://www.linuxfoundation.org', [], ['var' => 'value']);
+        $transport->request(Transport::METHOD_POST, 'http://www.php.net', [], ['var' => 'value']);
         $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
@@ -126,6 +126,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $method
      * @param string $shorthand
+     * @param int    $expectedCode
      *
      * @dataProvider methodProvider
      */
@@ -133,10 +134,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     {
         $transport = Curl::createFromDefaults();
 
-        $transport->request($method, 'http://www.linuxfoundation.org');
+        $transport->request($method, 'http://www.php.net');
         $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
-        call_user_func([$transport, $shorthand], 'http://www.linuxfoundation.org');
+        call_user_func([$transport, $shorthand], 'http://www.php.net');
         $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
@@ -153,7 +154,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             [Transport::METHOD_OPTIONS, 'options', 200],
             [Transport::METHOD_HEAD, 'head', 200],
             [Transport::METHOD_GET, 'get', 200],
-            [Transport::METHOD_POST, 'post', 400],
+            [Transport::METHOD_POST, 'post', 200],
             [Transport::METHOD_PUT, 'put', 200],
             [Transport::METHOD_DELETE, 'delete', 200],
             [Transport::METHOD_PATCH, 'patch', 200],
