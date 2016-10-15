@@ -4,6 +4,7 @@ enabled:
   - binary_operator_spaces
   - blank_line_before_return
   - concat_with_spaces
+  #- concat_without_spaces
   - function_typehint_space
   - hash_to_slash_comment
   - include
@@ -50,5 +51,6 @@ enabled:
   - trailing_comma_in_multiline_array
   - trim_array_spaces
   - unary_operator_spaces
+  #- not_operator_with_successor_space
   - whitespace_after_comma_in_array
   - whitespacy_lines

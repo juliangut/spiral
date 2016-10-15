@@ -1,6 +1,6 @@
 {
     "name": "juliangut/spiral",
-    "description": "Spiral: PSR7 aware cURL client",
+    "description": "A PSR7 aware cURL client",
     "keywords": [
         "psr7",
         "curl",
@@ -14,9 +14,16 @@
         {
             "name": "Julián Gutiérrez",
             "email": "juliangut@gmail.com",
-            "homepage": "http://juliangut.com"
+            "homepage": "http://juliangut.com",
+            "role": "Developer"
         }
     ],
+    "support": {
+        "source": "https://github.com/juliangut/spiral",
+        "issues": "https://github.com/juliangut/spiral/issues"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.5",
         "ext-curl": "*",
@@ -25,10 +32,13 @@
         "zendframework/zend-diactoros": "^1.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.5",
-        "squizlabs/php_codesniffer": "~2.3",
+        "friendsofphp/php-cs-fixer": "^1.0",
         "phpmd/phpmd": "~2.2",
-        "sebastian/phpcpd": "~2.0"
+        "phpunit/phpunit": "~4.5",
+        "sebastian/phpcpd": "~2.0",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "suggest": {
     },
     "autoload": {
         "psr-4": {
@@ -39,5 +49,24 @@
         "psr-4": {
             "Jgut\\Spiral\\Tests\\": "tests/Spiral/"
         }
+    },
+    "bin": [
+    ],
+    "config": {
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "phplint": "php -l src & php -l tests",
+        "phpcs": "phpcs --standard=PSR2 src tests",
+        "phpcs-lint": "php-cs-fixer fix --dry-run --verbose",
+        "phpcpd": "phpcpd src",
+        "phpmd": "phpmd src text unusedcode,naming,design,controversial,codesize",
+        "phpunit": "phpunit",
+        "phpunit-coverage": "phpunit --coverage-html build/coverage",
+        "phpunit-clover": "phpunit --coverage-clover build/logs/clover.xml",
+        "qa": "composer phplint & composer phpcs & composer phpcs-lint & composer phpcpd & composer phpmd",
+        "fix": "php-cs-fixer fix --verbose",
+        "security": "composer outdated",
+        "test": "composer qa & composer phpunit"
     }
 }

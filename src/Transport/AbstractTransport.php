@@ -1,10 +1,11 @@
 <?php
-/**
- * Spiral: PSR7 aware cURL client (https://github.com/juliangut/spiral)
+
+/*
+ * A PSR7 aware cURL client (https://github.com/juliangut/spiral).
  *
- * @link https://github.com/juliangut/spiral for the canonical source repository
- *
- * @license https://raw.githubusercontent.com/juliangut/spiral/master/LICENSE
+ * @license BSD-3-Clause
+ * @link https://github.com/juliangut/spiral
+ * @author Julián Gutiérrez <juliangut@gmail.com>
  */
 
 namespace Jgut\Spiral\Transport;
