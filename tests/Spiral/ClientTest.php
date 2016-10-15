@@ -104,7 +104,8 @@ RESP;
         $client = new Client($transport);
         $response = $client->request($request, $response);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        // The status code should be passed as an int, not a string according to ResponseInterface::withStatus()
+        $this->assertSame(200, $response->getStatusCode());
         $this->assertEquals('nginx', $response->getHeaderLine('Server'));
         $this->assertFalse($response->hasHeader('Location'));
         $this->assertEquals(1, preg_match('/^<!doctype html>/i', $response->getBody()));
