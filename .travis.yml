@@ -36,7 +36,7 @@ before_install:
   - composer self-update --stable --no-progress
 
 install:
-    - travis_retry composer update $COMPOSER_FLAGS --no-interaction --no-scripts --no-progress
+  - travis_retry composer update $COMPOSER_FLAGS --no-interaction --no-scripts --no-progress
   - if [[ $TEST_VERSION == true ]]; then travis_retry composer require satooshi/php-coveralls:dev-master $COMPOSER_FLAGS --no-interaction --no-scripts --no-progress ; fi
 
 script:
