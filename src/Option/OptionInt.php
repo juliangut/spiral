@@ -13,7 +13,7 @@ namespace Jgut\Spiral\Option;
 /**
  * Integer cURL option wrapper.
  */
-class OptionInt extends Option
+class OptionInt extends DefaultOption
 {
     /**
      * Minimum valid value.
@@ -30,9 +30,16 @@ class OptionInt extends Option
     protected $max;
 
     /**
-     * {@inheritdoc}
+     * Create integer cURL option.
+     *
+     * @param int $option
      */
-    protected $value = 0;
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = 0;
+    }
 
     /**
      * Set minimum value.

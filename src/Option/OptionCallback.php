@@ -15,7 +15,7 @@ use Jgut\Spiral\Exception\OptionException;
 /**
  * Special callback cURL option wrapper.
  */
-class OptionCallback extends Option
+class OptionCallback extends DefaultOption
 {
     /**
      * Callback to handle value set.
@@ -25,9 +25,16 @@ class OptionCallback extends Option
     protected $callback;
 
     /**
-     * {@inheritdoc}
+     * Create callback cURL option.
+     *
+     * @param int $option
      */
-    protected $value = '';
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = '';
+    }
 
     /**
      * Set value handler callback.
@@ -42,7 +49,7 @@ class OptionCallback extends Option
     /**
      * {@inheritdoc}
      *
-     * @throws \Jgut\Spiral\Exception\OptionException
+     * @throws OptionException
      */
     public function setValue($value)
     {

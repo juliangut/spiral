@@ -11,7 +11,7 @@
 namespace Jgut\Spiral\Transport;
 
 use Jgut\Spiral\Exception\TransportException;
-use Jgut\Spiral\Transport;
+use Jgut\Spiral\Option\OptionInterface;
 
 /**
  * cURL transport handler.
@@ -112,7 +112,7 @@ class Curl extends AbstractTransport
     /**
      * {@inheritdoc}
      *
-     * @throws \Jgut\Spiral\Exception\TransportException
+     * @throws TransportException
      */
     public function request($method, $uri, array $headers = [], array $vars = [], array $flags = [])
     {
@@ -133,17 +133,17 @@ class Curl extends AbstractTransport
             if (in_array(
                 $method,
                 [
-                    Transport::METHOD_OPTIONS,
-                    Transport::METHOD_HEAD,
-                    Transport::METHOD_GET,
-                    Transport::METHOD_PUT,
-                    Transport::METHOD_DELETE,
+                    TransportInterface::METHOD_OPTIONS,
+                    TransportInterface::METHOD_HEAD,
+                    TransportInterface::METHOD_GET,
+                    TransportInterface::METHOD_PUT,
+                    TransportInterface::METHOD_DELETE,
                 ],
                 true
             )) {
                 $parameters = null;
                 $uri .= ((strpos($uri, '?') !== false) ? '&' : '?') . http_build_query($vars, '', '&');
-            } elseif ($method !== Transport::METHOD_POST || $flags['post_multipart'] !== true) {
+            } elseif ($method !== TransportInterface::METHOD_POST || $flags['post_multipart'] !== true) {
                 $parameters = http_build_query($vars, '', '&');
             }
 
@@ -193,17 +193,17 @@ class Curl extends AbstractTransport
     protected function setMethod($handler, $method)
     {
         switch ($method) {
-            case Transport::METHOD_HEAD:
+            case TransportInterface::METHOD_HEAD:
                 curl_setopt($handler, CURLOPT_NOBODY, true);
                 break;
 
-            case Transport::METHOD_GET:
+            case TransportInterface::METHOD_GET:
                 curl_setopt($handler, CURLOPT_HTTPGET, true);
                 break;
 
-            case Transport::METHOD_POST:
+            case TransportInterface::METHOD_POST:
                 curl_setopt($handler, CURLOPT_POST, true);
-                curl_setopt($handler, CURLOPT_CUSTOMREQUEST, Transport::METHOD_POST);
+                curl_setopt($handler, CURLOPT_CUSTOMREQUEST, TransportInterface::METHOD_POST);
                 break;
 
             default:
@@ -214,8 +214,8 @@ class Curl extends AbstractTransport
     /**
      * Set cURL options on handler.
      *
-     * @param resource              $handler
-     * @param \Jgut\Spiral\Option[] $options
+     * @param resource          $handler
+     * @param OptionInterface[] $options
      */
     protected function forgeOptions($handler, array $options)
     {

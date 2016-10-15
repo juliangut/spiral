@@ -13,12 +13,19 @@ namespace Jgut\Spiral\Option;
 /**
  * String cURL option wrapper.
  */
-class OptionString extends Option
+class OptionString extends DefaultOption
 {
     /**
-     * {@inheritdoc}
+     * Create string cURL option.
+     *
+     * @param int $option
      */
-    protected $value = '';
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = '';
+    }
 
     /**
      * {@inheritdoc}

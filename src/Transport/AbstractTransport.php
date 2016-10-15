@@ -11,9 +11,8 @@
 namespace Jgut\Spiral\Transport;
 
 use Jgut\Spiral\Exception\OptionException;
-use Jgut\Spiral\Option;
 use Jgut\Spiral\Option\OptionFactory;
-use Jgut\Spiral\Transport as TransportInterface;
+use Jgut\Spiral\Option\OptionInterface;
 
 /**
  * Common transport trait.
@@ -23,14 +22,14 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * List of cURL options.
      *
-     * @var \Jgut\Spiral\Option[]
+     * @var OptionInterface[]
      */
     protected $options = [];
 
     /**
      * Retrieve added cURL options.
      *
-     * @return \Jgut\Spiral\Option[]
+     * @return OptionInterface[]
      */
     public function getOptions()
     {
@@ -41,6 +40,8 @@ abstract class AbstractTransport implements TransportInterface
      * Set cURL options.
      *
      * @param array $options
+     *
+     * @throws OptionException
      */
     public function setOptions(array $options)
     {
@@ -51,10 +52,12 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws OptionException
      */
     public function setOption($option, $value = '', $quiet = false)
     {
-        if (!$option instanceof Option) {
+        if (!$option instanceof OptionInterface) {
             try {
                 $option = OptionFactory::build($option, $value);
             } catch (OptionException $exception) {
@@ -73,7 +76,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function hasOption($option, $value = null)
     {
-        if ($option instanceof Option) {
+        if ($option instanceof OptionInterface) {
             $option = $option->getOption();
         } else {
             try {
@@ -97,7 +100,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function removeOption($option)
     {
-        if ($option instanceof Option) {
+        if ($option instanceof OptionInterface) {
             $option = $option->getOption();
         } else {
             try {
@@ -110,7 +113,7 @@ abstract class AbstractTransport implements TransportInterface
         $this->options = array_filter(
             $this->options,
             function ($transportOption) use ($option) {
-                /* @var \Jgut\Spiral\Option $transportOption */
+                /* @var OptionInterface $transportOption */
                 return !($transportOption->getOption() === $option);
             }
         );

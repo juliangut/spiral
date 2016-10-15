@@ -30,6 +30,7 @@ class TransportException extends \RuntimeException
     public function __construct($message, $code = 0, $category = '')
     {
         parent::__construct($message, $code);
+
         $this->category = trim($category);
     }
 

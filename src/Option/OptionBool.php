@@ -13,12 +13,19 @@ namespace Jgut\Spiral\Option;
 /**
  * Boolean cURL option wrapper.
  */
-class OptionBool extends Option
+class OptionBool extends DefaultOption
 {
     /**
-     * {@inheritdoc}
+     * Create boolean cURL option.
+     *
+     * @param int $option
      */
-    protected $value = false;
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = false;
+    }
 
     /**
      * {@inheritdoc}

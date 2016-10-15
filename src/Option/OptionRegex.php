@@ -15,7 +15,7 @@ use Jgut\Spiral\Exception\OptionException;
 /**
  * Regex cURL option wrapper.
  */
-class OptionRegex extends Option
+class OptionRegex extends DefaultOption
 {
     /**
      * Regex to check.
@@ -32,9 +32,16 @@ class OptionRegex extends Option
     protected $message = '"%s" is not a valid value';
 
     /**
-     * {@inheritdoc}
+     * Create regex cURL option.
+     *
+     * @param int $option
      */
-    protected $value = '';
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = '';
+    }
 
     /**
      * Set regex expression.
@@ -61,7 +68,7 @@ class OptionRegex extends Option
      *
      * @param string $value
      *
-     * @throws \Jgut\Spiral\Exception\OptionException
+     * @throws OptionException
      */
     public function setValue($value)
     {

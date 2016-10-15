@@ -8,12 +8,12 @@
  * @author Julián Gutiérrez <juliangut@gmail.com>
  */
 
-namespace Jgut\Spiral;
+namespace Jgut\Spiral\Option;
 
 /**
  * cURL option wrapper interface.
  */
-interface Option
+interface OptionInterface
 {
     /**
      * Get cURL option.

@@ -12,6 +12,8 @@ namespace Jgut\Spiral\Tests;
 
 use Jgut\Spiral\Client;
 use Jgut\Spiral\Exception\TransportException;
+use Jgut\Spiral\Transport\Curl;
+use Jgut\Spiral\Transport\TransportInterface;
 use Zend\Diactoros\Request;
 use Zend\Diactoros\Response;
 
@@ -22,7 +24,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 {
     public function testGettersSetters()
     {
-        $transport = $this->getMock('\Jgut\Spiral\Transport');
+        /* @var TransportInterface $transport */
+        $transport = $this->getMockBuilder(TransportInterface::class)
+            ->getMock();
 
         $client = new Client();
 
@@ -77,7 +81,7 @@ RESP;
             'content_type' => 'text/html; charset=utf-8',
         ];
 
-        $transport = $this->getMockBuilder('\Jgut\Spiral\Transport\Curl')
+        $transport = $this->getMockBuilder(Curl::class)
             ->disableOriginalConstructor()
             ->getMock();
         $transport

@@ -8,12 +8,12 @@
  * @author Julián Gutiérrez <juliangut@gmail.com>
  */
 
-namespace Jgut\Spiral;
+namespace Jgut\Spiral\Transport;
 
 /**
  * Transport wrapper interface.
  */
-interface Transport
+interface TransportInterface
 {
     /**
      * Accepted HTTP methods.

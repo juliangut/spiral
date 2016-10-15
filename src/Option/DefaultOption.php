@@ -10,12 +10,10 @@
 
 namespace Jgut\Spiral\Option;
 
-use Jgut\Spiral\Option as OptionInterface;
-
 /**
- * Basic cURL options.
+ * Default cURL option.
  */
-class Option implements OptionInterface
+class DefaultOption implements OptionInterface
 {
     /**
      * Option.

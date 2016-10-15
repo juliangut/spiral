@@ -227,9 +227,9 @@ abstract class OptionFactory
      * @param int|string $option
      * @param mixed      $value
      *
-     * @throws \Jgut\Spiral\Exception\OptionException
+     * @throws OptionException
      *
-     * @return \Jgut\Spiral\Option
+     * @return OptionInterface
      */
     public static function build($option, $value)
     {
@@ -240,12 +240,12 @@ abstract class OptionFactory
             $optionDefinition = static::$typeMap[$option];
         }
 
-        $optionClassName = sprintf('\Jgut\Spiral\Option\\Option%s', ucfirst($optionDefinition['type']));
+        $optionClassName = preg_replace('/Factory$/', '', self::class) . ucfirst($optionDefinition['type']);
         $optionClass = new $optionClassName($option);
 
         switch (strtolower($optionDefinition['type'])) {
             case 'regex':
-                /* @var \Jgut\Spiral\Option\OptionRegex $optionClass */
+                /* @var OptionRegex $optionClass */
                 $optionClass->setRegex($optionDefinition['regex']);
                 if (array_key_exists('message', $optionDefinition)) {
                     $optionClass->setMessage($optionDefinition['message']);
@@ -253,7 +253,7 @@ abstract class OptionFactory
                 break;
 
             case 'int':
-                /* @var \Jgut\Spiral\Option\OptionInt $optionClass */
+                /* @var OptionInt $optionClass */
                 $optionClass->setMin(array_key_exists('min', $optionDefinition) ? $optionDefinition['min'] : 0);
                 if (array_key_exists('max', $optionDefinition)) {
                     $optionClass->setMax($optionDefinition['max']);
@@ -275,7 +275,7 @@ abstract class OptionFactory
      *
      * @param int|string $option
      *
-     * @throws \Jgut\Spiral\Exception\OptionException
+     * @throws OptionException
      *
      * @return int
      */
@@ -305,10 +305,10 @@ abstract class OptionFactory
     /**
      * Configure option callback.
      *
-     * @param \Jgut\Spiral\Option\OptionCallback $optionClass
-     * @param int                                $option
+     * @param OptionCallback $optionClass
+     * @param int            $option
      *
-     * @return \Jgut\Spiral\Option\OptionCallback
+     * @return OptionCallback
      */
     protected static function configureCallback(OptionCallback $optionClass, $option)
     {

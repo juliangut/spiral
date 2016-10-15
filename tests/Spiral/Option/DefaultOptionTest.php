@@ -10,16 +10,16 @@
 
 namespace Jgut\Spiral\Tests\Option;
 
-use Jgut\Spiral\Option\Option;
+use Jgut\Spiral\Option\DefaultOption;
 
 /**
  * Default option tests.
  */
-class OptionTest extends \PHPUnit_Framework_TestCase
+class DefaultOptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testAccessors()
     {
-        $option = new Option(CURLOPT_ENCODING);
+        $option = new DefaultOption(CURLOPT_ENCODING);
 
         static::assertEquals(CURLOPT_ENCODING, $option->getOption());
         static::assertNull($option->getValue());

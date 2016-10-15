@@ -12,6 +12,7 @@ namespace Jgut\Spiral;
 
 use Jgut\Spiral\Exception\TransportException;
 use Jgut\Spiral\Transport\Curl;
+use Jgut\Spiral\Transport\TransportInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Stream;
@@ -24,14 +25,14 @@ class Client
     /**
      * cURL transport handler.
      *
-     * @var \Jgut\Spiral\Transport
+     * @var TransportInterface
      */
     private $transport;
 
     /**
-     * @param \Jgut\Spiral\Transport|null $transport
+     * @param TransportInterface|null $transport
      */
-    public function __construct(Transport $transport = null)
+    public function __construct(TransportInterface $transport = null)
     {
         $this->transport = $transport;
     }
@@ -39,9 +40,9 @@ class Client
     /**
      * Set transport handler.
      *
-     * @param \Jgut\Spiral\Transport $transport
+     * @param TransportInterface $transport
      */
-    public function setTransport(Transport $transport)
+    public function setTransport(TransportInterface $transport)
     {
         $this->transport = $transport;
     }
@@ -49,11 +50,11 @@ class Client
     /**
      * Retrieve transport handler.
      *
-     * @return \Jgut\Spiral\Transport
+     * @return TransportInterface
      */
     public function getTransport()
     {
-        if (!$this->transport instanceof Transport) {
+        if (!$this->transport instanceof TransportInterface) {
             $this->transport = Curl::createFromDefaults();
         }
 
@@ -63,14 +64,14 @@ class Client
     /**
      * Run PSR7 request.
      *
-     * @param \Psr\Http\Message\RequestInterface  $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array                               $vars
-     * @param array                               $flags
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     * @param array             $vars
+     * @param array             $flags
      *
-     * @throws \Jgut\Spiral\Exception\TransportException
+     * @throws TransportException
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function request(
         RequestInterface $request,
@@ -155,11 +156,11 @@ class Client
     /**
      * Set response headers and content.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param array                               $headers
-     * @param string                              $content
+     * @param ResponseInterface $response
+     * @param array             $headers
+     * @param string            $content
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     protected function populateResponse(ResponseInterface $response, array $headers, $content)
     {

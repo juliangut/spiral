@@ -15,19 +15,26 @@ use Jgut\Spiral\Exception\OptionException;
 /**
  * File cURL option wrapper.
  */
-class OptionFile extends Option
+class OptionFile extends DefaultOption
 {
     /**
-     * {@inheritdoc}
+     * Create file cURL option.
+     *
+     * @param int $option
      */
-    protected $value = '';
+    public function __construct($option)
+    {
+        parent::__construct($option);
+
+        $this->value = '';
+    }
 
     /**
      * {@inheritdoc}
      *
      * @param string $value
      *
-     * @throws \Jgut\Spiral\Exception\OptionException
+     * @throws OptionException
      */
     public function setValue($value)
     {
