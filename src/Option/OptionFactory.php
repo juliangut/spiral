@@ -290,7 +290,7 @@ abstract class OptionFactory
 
         $curlConstants = [];
         foreach (get_defined_constants(true)['curl'] as $key => $val) {
-            if (strpos($key, 'CURLOPT_') === 0) {
+            if (preg_match('/(^CURLOPT_)|(^CURLINFO_HEADER_OUT$)/', $key)) {
                 $curlConstants[] = $val;
             }
         }
