@@ -104,8 +104,12 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function testRequestMethods($method, $shorthand, $expectedCode)
     {
         $transport = Curl::createFromDefaults();
+        $transport->setOption(CURLINFO_HEADER_OUT, true);
 
         $transport->request($method, 'http://www.php.net');
+        if ($transport->responseInfo(CURLINFO_HTTP_CODE) !== $expectedCode) {
+            var_dump($transport->responseInfo());
+        }
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         call_user_func([$transport, $shorthand], 'http://www.php.net');
