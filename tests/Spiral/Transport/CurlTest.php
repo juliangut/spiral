@@ -14,33 +14,26 @@ use Jgut\Spiral\Transport;
 use Jgut\Spiral\Transport\Curl;
 
 /**
- * @cover \Jgut\Spiral\Transport\Curl
- * @cover \Jgut\Spiral\Transport\TransportAware
+ * Curl transport tests.
  */
 class CurlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Jgut\Spiral\Transport\AbstractTransport::setOptions
-     * @cover \Jgut\Spiral\Transport\AbstractTransport::setOption
-     * @cover \Jgut\Spiral\Transport\AbstractTransport::hasOption
-     * @cover \Jgut\Spiral\Transport\AbstractTransport::getOptions
-     * @cover \Jgut\Spiral\Transport\AbstractTransport::removeOption
-     *
      * @expectedException \Jgut\Spiral\Exception\OptionException
      */
-    public function testAccessorsMutators()
+    public function testGetterSetter()
     {
         $transport = new Curl;
 
-        $this->assertFalse($transport->hasOption('fake_option'));
+        static::assertFalse($transport->hasOption('fake_option'));
 
         $options = [CURLOPT_VERBOSE => false];
 
         $transport->setOptions($options);
-        $this->assertEquals(1, count($transport->getOptions()));
-        $this->assertTrue($transport->hasOption(CURLOPT_VERBOSE));
-        $this->assertTrue($transport->hasOption(OptionFactory::build(CURLOPT_VERBOSE, false)));
-        $this->assertEquals(
+        static::assertEquals(1, count($transport->getOptions()));
+        static::assertTrue($transport->hasOption(CURLOPT_VERBOSE));
+        static::assertTrue($transport->hasOption(OptionFactory::build(CURLOPT_VERBOSE, false)));
+        static::assertEquals(
             $options,
             [$transport->getOptions()[0]->getOption() => $transport->getOptions()[0]->getValue()]
         );
@@ -48,25 +41,20 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $transport->removeOption('fake_option');
         $transport->removeOption(CURLOPT_VERBOSE);
         $transport->removeOption(OptionFactory::build(CURLOPT_VERBOSE, false));
-        $this->assertFalse($transport->hasOption(CURLOPT_VERBOSE));
+        static::assertFalse($transport->hasOption(CURLOPT_VERBOSE));
 
         $transport->setOption('fake_option');
     }
 
-    /**
-     * @cover \Jgut\Spiral\Transport\Curl::createFromDefaults
-     */
     public function testDefaultCreation()
     {
         $transport = Curl::createFromDefaults();
 
-        $this->assertTrue($transport->hasOption(CURLOPT_VERBOSE));
-        $this->assertTrue($transport->hasOption('timeout'));
+        static::assertTrue($transport->hasOption(CURLOPT_VERBOSE));
+        static::assertTrue($transport->hasOption('timeout'));
     }
 
     /**
-     * @cover \Jgut\Spiral\Transport\Curl::request
-     *
      * @expectedException \Jgut\Spiral\Exception\TransportException
      * @expectedExceptionMessageRegExp /^Could( not|n't) resolve host/
      */
@@ -77,53 +65,35 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $transport->request(Transport::METHOD_HEAD, 'http://fake_made_up_web.com');
     }
 
-    /**
-     * @cover \Jgut\Spiral\Transport\Curl::request
-     * @cover \Jgut\Spiral\Transport\Curl::forgeOptions
-     * @cover \Jgut\Spiral\Transport\Curl::forgeHeaders
-     */
     public function testForgeAndInfo()
     {
         $transport = Curl::createFromDefaults();
         $transport->setOption('user_password', 'user:pass');
 
-        $this->assertNull($transport->responseInfo());
+        static::assertNull($transport->responseInfo());
 
         $transport->request(Transport::METHOD_GET, 'http://www.php.net', ['Accept-Charset' => 'utf-8']);
 
-        $this->assertInternalType('array', $transport->responseInfo());
-        $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        static::assertInternalType('array', $transport->responseInfo());
+        static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
     }
 
-    /**
-     * @cover \Jgut\Spiral\Transport\Curl::request
-     */
     public function testRequestWithVars()
     {
         $transport = Curl::createFromDefaults();
 
         $transport->request(Transport::METHOD_GET, 'http://www.php.net', [], ['var' => 'value']);
-        $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->request(Transport::METHOD_POST, 'http://www.php.net', [], ['var' => 'value']);
-        $this->assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
     }
 
     /**
-     * @cover \Jgut\Spiral\Transport\Curl::request
-     * @cover \Jgut\Spiral\Transport\Curl::setMethod
-     * @cover \Jgut\Spiral\Transport\TransportAware::options
-     * @cover \Jgut\Spiral\Transport\TransportAware::head
-     * @cover \Jgut\Spiral\Transport\TransportAware::get
-     * @cover \Jgut\Spiral\Transport\TransportAware::post
-     * @cover \Jgut\Spiral\Transport\TransportAware::put
-     * @cover \Jgut\Spiral\Transport\TransportAware::delete
-     * @cover \Jgut\Spiral\Transport\TransportAware::patch
-     *
      * @param string $method
      * @param string $shorthand
      * @param int    $expectedCode
@@ -135,10 +105,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
         $transport = Curl::createFromDefaults();
 
         $transport->request($method, 'http://www.php.net');
-        $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         call_user_func([$transport, $shorthand], 'http://www.php.net');
-        $this->assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
+        static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
     }

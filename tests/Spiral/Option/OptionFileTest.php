@@ -12,28 +12,23 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionFile;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionFile
+ * File option tests.
  */
 class OptionFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Jgut\Spiral\Option\OptionFile::setValue
-     *
      * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testNoAccess()
     {
         $option = new OptionFile(CURLOPT_COOKIEFILE);
 
-        $this->assertEquals(CURLOPT_COOKIEFILE, $option->getOption());
-        $this->assertEquals('', $option->getValue());
+        static::assertEquals(CURLOPT_COOKIEFILE, $option->getOption());
+        static::assertEquals('', $option->getValue());
 
         $option->setValue('fake_file');
     }
 
-    /**
-     * @cover \Jgut\Spiral\Option\OptionFile::setValue
-     */
     public function testAccessors()
     {
         $file = sys_get_temp_dir() . '/JgutSpiralOptionFile';
@@ -42,7 +37,7 @@ class OptionFileTest extends \PHPUnit_Framework_TestCase
         $option = new OptionFile(CURLOPT_COOKIEFILE);
 
         $option->setValue($file);
-        $this->assertEquals($file, $option->getValue());
+        static::assertEquals($file, $option->getValue());
 
         unlink($file);
     }

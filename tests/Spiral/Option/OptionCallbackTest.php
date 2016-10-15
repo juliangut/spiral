@@ -12,28 +12,23 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionCallback;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionCallback
+ * Call back option tests.
  */
 class OptionCallbackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Jgut\Spiral\Option\OptionCallback::setValue
-     *
      * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testBadCallback()
     {
         $option = new OptionCallback(CURLOPT_HTTPAUTH);
 
-        $this->assertEquals(CURLOPT_HTTPAUTH, $option->getOption());
-        $this->assertEquals('', $option->getValue());
+        static::assertEquals(CURLOPT_HTTPAUTH, $option->getOption());
+        static::assertEquals('', $option->getValue());
 
         $option->setValue('false');
     }
 
-    /**
-     * @cover \Jgut\Spiral\Option\UserPwd::setValue
-     */
     public function testAccessors()
     {
         $option = new OptionCallback(CURLOPT_HTTPAUTH);
@@ -42,6 +37,6 @@ class OptionCallbackTest extends \PHPUnit_Framework_TestCase
             return $value . ' aaa';
         });
         $option->setValue('bbb');
-        $this->assertEquals('bbb aaa', $option->getValue());
+        static::assertEquals('bbb aaa', $option->getValue());
     }
 }

@@ -12,31 +12,27 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionRegex;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionRegex
+ * Regex option tests.
  */
 class OptionRegexTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Jgut\Spiral\Option\OptionRegex::setValue
-     *
      * @expectedException \Jgut\Spiral\Exception\OptionException
      */
     public function testBadFormatted()
     {
         $option = new OptionRegex(CURLOPT_USERPWD);
 
-        $this->assertEquals(CURLOPT_USERPWD, $option->getOption());
-        $this->assertEquals('', $option->getValue());
+        static::assertEquals(CURLOPT_USERPWD, $option->getOption());
+        static::assertEquals('', $option->getValue());
 
         $option->setValue('/^a$/');
-        $this->assertEquals('a', $option->getValue());
+        static::assertEquals('a', $option->getValue());
 
         $option->setValue('value');
     }
 
     /**
-     * @cover \Jgut\Spiral\Option\OptionRegex::setValue
-     *
      * @expectedException \Jgut\Spiral\Exception\OptionException
      * @expectedExceptionMessage Invalid!
      */

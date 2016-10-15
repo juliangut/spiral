@@ -12,21 +12,18 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionString;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionString
+ * String option tests.
  */
 class OptionStringTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @cover \Jgut\Spiral\Option\OptionString::setValue
-     */
     public function testAccessors()
     {
         $option = new OptionString(CURLOPT_REFERER);
 
-        $this->assertEquals(CURLOPT_REFERER, $option->getOption());
-        $this->assertEquals('', $option->getValue());
+        static::assertEquals(CURLOPT_REFERER, $option->getOption());
+        static::assertEquals('', $option->getValue());
 
         $option->setValue('value');
-        $this->assertEquals('value', $option->getValue());
+        static::assertEquals('value', $option->getValue());
     }
 }

@@ -15,16 +15,11 @@ use Zend\Diactoros\Request;
 use Zend\Diactoros\Response;
 
 /**
- * @cover \Jgut\Spiral\Client
+ * Client handler tests.
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers Jgut\Spiral\Client::__construct
-     * @covers Jgut\Spiral\Client::setTransport
-     * @covers Jgut\Spiral\Client::getTransport
-     */
-    public function testMutatorAccessor()
+    public function testGettersSetters()
     {
         $transport = $this->getMock('\Jgut\Spiral\Transport');
 
@@ -32,14 +27,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client->setTransport($transport);
 
-        $this->assertEquals($transport, $client->getTransport());
+        static::assertEquals($transport, $client->getTransport());
     }
 
-    /**
-     * @covers Jgut\Spiral\Client::__construct
-     * @covers Jgut\Spiral\Client::request
-     * @covers Jgut\Spiral\Client::getTransport
-     */
     public function testBadRequest()
     {
         $request = new Request('http://fake_made_up_web.com', 'GET');
@@ -49,18 +39,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         try {
             $client->request($request, $response);
         } catch (TransportException $exception) {
-            $this->assertEquals(CURLE_COULDNT_RESOLVE_HOST, $exception->getCode());
-            $this->assertEquals('', $exception->getCategory());
+            static::assertEquals(CURLE_COULDNT_RESOLVE_HOST, $exception->getCode());
+            static::assertEquals('', $exception->getCategory());
         }
     }
 
-    /**
-     * @covers Jgut\Spiral\Client::__construct
-     * @covers Jgut\Spiral\Client::request
-     * @covers Jgut\Spiral\Client::getTransport
-     * @covers Jgut\Spiral\Client::getTransferHeaders
-     * @covers Jgut\Spiral\Client::populateResponse
-     */
     public function testRequest()
     {
         $responseContent = <<<RESP
@@ -93,10 +76,20 @@ RESP;
             'content_type' => 'text/html; charset=utf-8',
         ];
 
-        $transport = $this->getMockBuilder('\Jgut\Spiral\Transport\Curl')->disableOriginalConstructor()->getMock();
-        $transport->expects($this->once())->method('request')->will($this->returnValue($responseContent));
-        $transport->expects($this->once())->method('responseInfo')->will($this->returnValue($transferInfo));
-        $transport->expects($this->once())->method('close');
+        $transport = $this->getMockBuilder('\Jgut\Spiral\Transport\Curl')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $transport
+            ->expects(static::once())
+            ->method('request')
+            ->will(static::returnValue($responseContent));
+        $transport
+            ->expects(static::once())
+            ->method('responseInfo')
+            ->will(static::returnValue($transferInfo));
+        $transport
+            ->expects(static::once())
+            ->method('close');
 
         $request = new Request('', 'GET');
         $response = new Response;
@@ -104,9 +97,9 @@ RESP;
         $client = new Client($transport);
         $response = $client->request($request, $response);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('nginx', $response->getHeaderLine('Server'));
-        $this->assertFalse($response->hasHeader('Location'));
-        $this->assertEquals(1, preg_match('/^<!doctype html>/i', $response->getBody()));
+        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals('nginx', $response->getHeaderLine('Server'));
+        static::assertFalse($response->hasHeader('Location'));
+        static::assertEquals(1, preg_match('/^<!doctype html>/i', $response->getBody()));
     }
 }

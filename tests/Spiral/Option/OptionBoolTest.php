@@ -12,24 +12,21 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\OptionBool;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionBoolean
+ * Boolean option tests.
  */
 class OptionBoolTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @cover \Jgut\Spiral\Option\OptionBoolean::setValue
-     */
     public function testAccessors()
     {
         $option = new OptionBool(CURLOPT_AUTOREFERER);
 
-        $this->assertEquals(CURLOPT_AUTOREFERER, $option->getOption());
-        $this->assertFalse($option->getValue());
+        static::assertEquals(CURLOPT_AUTOREFERER, $option->getOption());
+        static::assertFalse($option->getValue());
 
         $option->setValue(true);
-        $this->assertTrue($option->getValue());
+        static::assertTrue($option->getValue());
 
         $option->setValue('string');
-        $this->assertFalse($option->getValue());
+        static::assertFalse($option->getValue());
     }
 }

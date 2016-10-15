@@ -12,30 +12,24 @@ namespace Jgut\Spiral\Tests\Option;
 use Jgut\Spiral\Option\Option;
 
 /**
- * @cover \Jgut\Spiral\Option\OptionAware
+ * Default option tests.
  */
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @cover \Jgut\Spiral\Option\OptionAware::__construct
-     * @cover \Jgut\Spiral\Option\OptionAware::getOption
-     * @cover \Jgut\Spiral\Option\OptionAware::getValue
-     * @cover \Jgut\Spiral\Option\OptionAware::setValue
-     */
     public function testAccessors()
     {
         $option = new Option(CURLOPT_ENCODING);
 
-        $this->assertEquals(CURLOPT_ENCODING, $option->getOption());
-        $this->assertNull($option->getValue());
+        static::assertEquals(CURLOPT_ENCODING, $option->getOption());
+        static::assertNull($option->getValue());
 
         $option->setValue(true);
-        $this->assertEquals(true, $option->getValue());
+        static::assertEquals(true, $option->getValue());
 
         $option->setValue(1);
-        $this->assertEquals(1, $option->getValue());
+        static::assertEquals(1, $option->getValue());
 
         $option->setValue('true');
-        $this->assertEquals('true', $option->getValue());
+        static::assertEquals('true', $option->getValue());
     }
 }
