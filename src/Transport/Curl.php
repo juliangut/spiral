@@ -65,7 +65,7 @@ class Curl extends AbstractTransport
     protected static $defaultOptions = [
         CURLOPT_VERBOSE           => false,
         CURLOPT_HTTP_VERSION      => 1.1,
-        CURLOPT_USERAGENT         => 'Jgut\Spiral\Transport\Curl',
+        CURLOPT_USERAGENT         => self::class,
         CURLOPT_CONNECTTIMEOUT    => 60,
         CURLOPT_TIMEOUT           => 60,
         CURLOPT_CRLF              => false,
@@ -93,6 +93,8 @@ class Curl extends AbstractTransport
      * Create cURL transport manager.
      *
      * @param array $options
+     *
+     * @throws \Jgut\Spiral\Exception\OptionException
      */
     public function __construct(array $options = [])
     {
@@ -102,7 +104,7 @@ class Curl extends AbstractTransport
     /**
      * Create cURL transport manager with default options.
      *
-     * @return self
+     * @return static
      */
     public static function createFromDefaults()
     {
@@ -120,10 +122,10 @@ class Curl extends AbstractTransport
         $this->handler = curl_init();
 
         $method = strtoupper($method);
-        $this->setMethod($this->handler, $method);
+        $this->setMethod($method);
 
-        $this->forgeOptions($this->handler, $this->options);
-        $this->forgeHeaders($this->handler, $headers);
+        $this->forgeOptions($this->options);
+        $this->forgeHeaders($headers);
 
         $flags = array_merge(['post_multipart' => false], $flags);
 
@@ -153,7 +155,7 @@ class Curl extends AbstractTransport
         }
         curl_setopt($this->handler, CURLOPT_URL, $uri);
 
-        $response = $this->execute($this->handler);
+        $response = $this->execute();
 
         if (curl_errno($this->handler) !== CURLE_OK) {
             $errCode = curl_errno($this->handler);
@@ -175,66 +177,61 @@ class Curl extends AbstractTransport
     /**
      * Isolate curl execution.
      *
-     * @param resource $handler
-     *
      * @return string
      */
-    protected function execute($handler)
+    protected function execute()
     {
-        return curl_exec($handler);
+        return curl_exec($this->handler) ?: '';
     }
 
     /**
      * Set HTTP method on handler.
      *
-     * @param resource $handler
-     * @param string   $method
+     * @param string $method
      */
-    protected function setMethod($handler, $method)
+    protected function setMethod($method)
     {
         switch ($method) {
             case TransportInterface::METHOD_HEAD:
-                curl_setopt($handler, CURLOPT_NOBODY, true);
+                curl_setopt($this->handler, CURLOPT_NOBODY, true);
                 break;
 
             case TransportInterface::METHOD_GET:
-                curl_setopt($handler, CURLOPT_HTTPGET, true);
+                curl_setopt($this->handler, CURLOPT_HTTPGET, true);
                 break;
 
             case TransportInterface::METHOD_POST:
-                curl_setopt($handler, CURLOPT_POST, true);
-                curl_setopt($handler, CURLOPT_CUSTOMREQUEST, TransportInterface::METHOD_POST);
+                curl_setopt($this->handler, CURLOPT_POST, true);
+                curl_setopt($this->handler, CURLOPT_CUSTOMREQUEST, TransportInterface::METHOD_POST);
                 break;
 
             default:
-                curl_setopt($handler, CURLOPT_CUSTOMREQUEST, $method);
+                curl_setopt($this->handler, CURLOPT_CUSTOMREQUEST, $method);
         }
     }
 
     /**
      * Set cURL options on handler.
      *
-     * @param resource          $handler
      * @param OptionInterface[] $options
      */
-    protected function forgeOptions($handler, array $options)
+    protected function forgeOptions(array $options)
     {
         foreach ($options as $option) {
-            curl_setopt($handler, $option->getOption(), $option->getValue());
+            curl_setopt($this->handler, $option->getOption(), $option->getValue());
         }
 
         if ($this->hasOption(CURLOPT_USERPWD) && !$this->hasOption(CURLOPT_HTTPAUTH, CURLAUTH_BASIC)) {
-            curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($this->handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
     }
 
     /**
      * Set HTTP headers on handler.
      *
-     * @param resource $handler
-     * @param array    $headers
+     * @param array $headers
      */
-    protected function forgeHeaders($handler, array $headers)
+    protected function forgeHeaders(array $headers)
     {
         $headerList = [];
 
@@ -242,7 +239,7 @@ class Curl extends AbstractTransport
             $headerList[] = sprintf('%s: %s', $header, is_array($value) ? implode(', ', $value) : (string) $value);
         }
 
-        curl_setopt($handler, CURLOPT_HTTPHEADER, $headerList);
+        curl_setopt($this->handler, CURLOPT_HTTPHEADER, $headerList);
     }
 
     /**
