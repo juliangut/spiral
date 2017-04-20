@@ -25,7 +25,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=5.5",
+        "php": "^5.5|^7.0",
         "ext-curl": "*",
         "lib-curl": "*",
         "psr/http-message": "^1.0",
@@ -34,7 +34,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^1.0",
         "phpmd/phpmd": "~2.2",
-        "phpunit/phpunit": "~4.5|^5.0|^6.0",
+        "phpunit/phpunit": "~4.5|^5.0",
         "sebastian/phpcpd": "~2.0",
         "squizlabs/php_codesniffer": "~2.3"
     },
