@@ -69,7 +69,7 @@ class Curl extends AbstractTransport
         CURLOPT_CONNECTTIMEOUT    => 60,
         CURLOPT_TIMEOUT           => 60,
         CURLOPT_CRLF              => false,
-        CURLOPT_SSLVERSION        => 3,
+        CURLOPT_SSLVERSION        => 0,
         CURLOPT_SSL_VERIFYPEER    => true,
         CURLOPT_SSL_VERIFYHOST    => 2,
         CURLOPT_AUTOREFERER       => true,
