@@ -34,7 +34,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^1.0",
         "phpmd/phpmd": "~2.2",
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "~4.5|^5.0|^6.0",
         "sebastian/phpcpd": "~2.0",
         "squizlabs/php_codesniffer": "~2.3"
     },
@@ -56,7 +56,7 @@
         "preferred-install": "dist"
     },
     "scripts": {
-        "phplint": "php -l src & php -l tests",
+        "php-lint": "php -l src && php -l tests",
         "phpcs": "phpcs --standard=PSR2 src tests",
         "phpcs-lint": "php-cs-fixer fix --dry-run --verbose",
         "phpcpd": "phpcpd src",
@@ -64,9 +64,21 @@
         "phpunit": "phpunit",
         "phpunit-coverage": "phpunit --coverage-html build/coverage",
         "phpunit-clover": "phpunit --coverage-clover build/logs/clover.xml",
-        "qa": "composer phplint & composer phpcs & composer phpcs-lint & composer phpcpd & composer phpmd",
+        "qa": [
+            "@php-lint",
+            "@phpcs",
+            "@phpcs-lint",
+            "@phpcpd",
+            "@phpmd"
+        ],
+        "reports": [
+            "@phpunit-coverage"
+        ],
         "fix": "php-cs-fixer fix --verbose",
         "security": "composer outdated",
-        "test": "composer qa & composer phpunit"
+        "test": [
+            "@php-lint",
+            "@phpunit"
+        ]
     }
 }
