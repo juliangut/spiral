@@ -222,6 +222,13 @@ abstract class OptionFactory
     ];
 
     /**
+     * Defined cURL constants.
+     *
+     * @var array
+     */
+    protected static $curlConstants;
+
+    /**
      * Build cURL option.
      *
      * @param int|string $option
@@ -288,14 +295,7 @@ abstract class OptionFactory
             }
         }
 
-        $curlConstants = [];
-        foreach (get_defined_constants(true)['curl'] as $key => $val) {
-            if (preg_match('/(^CURLOPT_)|(^CURLINFO_HEADER_OUT$)/', $key)) {
-                $curlConstants[] = $val;
-            }
-        }
-
-        if (!in_array($option, $curlConstants, true)) {
+        if (!in_array($option, static::getCurlConstants(), true)) {
             throw new OptionException(sprintf('"%s" is not valid cURL option', $option));
         }
 
@@ -337,5 +337,25 @@ abstract class OptionFactory
         }
 
         return $optionClass;
+    }
+
+    /**
+     * Get defined cURL constants.
+     *
+     * @return array
+     */
+    protected static function getCurlConstants()
+    {
+        if (static::$curlConstants === null) {
+            static::$curlConstants = [];
+
+            foreach (get_defined_constants(true)['curl'] as $key => $val) {
+                if (preg_match('/(^CURLOPT_)|(^CURLINFO_HEADER_OUT$)/', $key)) {
+                    static::$curlConstants[] = $val;
+                }
+            }
+        }
+
+        return static::$curlConstants;
     }
 }
