@@ -148,7 +148,7 @@ class Curl extends AbstractTransport
             }
 
             if ($parameters !== null) {
-                curl_setopt($this->handler, CURLOPT_POSTFIELDS, $vars);
+                curl_setopt($this->handler, CURLOPT_POSTFIELDS, $parameters);
             }
         }
         curl_setopt($this->handler, CURLOPT_URL, $uri);
