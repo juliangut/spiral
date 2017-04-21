@@ -22,7 +22,7 @@ use Zend\Diactoros\Response;
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGettersSetters()
+    public function testTransport()
     {
         /* @var TransportInterface $transport */
         $transport = $this->getMockBuilder(TransportInterface::class)
@@ -33,6 +33,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->setTransport($transport);
 
         static::assertEquals($transport, $client->getTransport());
+    }
+
+    public function testAutoClose()
+    {
+        $client = new Client();
+
+        static::assertTrue($client->isCloseOnError());
+
+        $client->setCloseOnError(false);
+
+        static::assertFalse($client->isCloseOnError());
     }
 
     public function testBadRequest()

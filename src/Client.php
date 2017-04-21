@@ -30,6 +30,13 @@ class Client
     private $transport;
 
     /**
+     * Auto close on error.
+     *
+     * @var bool
+     */
+    private $closeOnError = true;
+
+    /**
      * @param TransportInterface|null $transport
      */
     public function __construct(TransportInterface $transport = null)
@@ -62,6 +69,26 @@ class Client
     }
 
     /**
+     * Set automatic connection close on error.
+     *
+     * @param bool $closeOnError
+     */
+    public function setCloseOnError($closeOnError)
+    {
+        $this->closeOnError = $closeOnError === true;
+    }
+
+    /**
+     * Check if automatic connection close on error is active.
+     *
+     * @return bool
+     */
+    public function isCloseOnError()
+    {
+        return $this->closeOnError;
+    }
+
+    /**
      * Run PSR7 request.
      *
      * @param RequestInterface  $request
@@ -90,7 +117,9 @@ class Client
                 $flags
             );
         } catch (TransportException $exception) {
-            $transport->close();
+            if ($this->closeOnError) {
+                $transport->close();
+            }
 
             // Bubble exception
             throw $exception;
@@ -141,7 +170,7 @@ class Client
         ];
 
         foreach ($transferHeaders as $header) {
-            if (preg_match('/^HTTP\/(1\.\d) +([1-5][0-9]{2}) +.+$/', $header, $matches)) {
+            if (preg_match('/^HTTP\/(1\.\d) +([1-5]\d{2}) +.+$/', $header, $matches)) {
                 $responseHeaders['Protocol-Version'] = $matches[1];
                 $responseHeaders['Status'] = $matches[2];
             } elseif (strpos($header, ':') !== false) {
@@ -178,7 +207,7 @@ class Client
             $response = $response->withHeader($name, (string) $value);
         }
 
-        $body = new Stream('php://temp', 'r+');
+        $body = new Stream('php://temp', 'wb+');
         $body->write($content);
 
         return $response->withBody($body);

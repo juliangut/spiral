@@ -167,8 +167,6 @@ class Curl extends AbstractTransport
                 array_key_exists($errCode, static::$errorCategoryMap) ? static::$errorCategoryMap [$errCode] : ''
             );
 
-            $this->close();
-
             throw $exception;
         }
 
