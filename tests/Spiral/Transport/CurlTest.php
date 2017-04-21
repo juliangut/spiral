@@ -10,9 +10,9 @@
 
 namespace Jgut\Spiral\Tests\Transport;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Jgut\Spiral\Option\OptionFactory;
 use Jgut\Spiral\Transport\Curl;
-use Jgut\Spiral\Transport\TransportInterface;
 
 /**
  * Curl transport tests.
@@ -63,7 +63,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     {
         $transport = Curl::createFromDefaults();
 
-        $transport->request(TransportInterface::METHOD_HEAD, 'http://fake_made_up_web.com');
+        $transport->request(RequestMethodInterface::METHOD_HEAD, 'http://fake_made_up_web.com');
     }
 
     public function testForgeAndInfo()
@@ -73,7 +73,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         static::assertNull($transport->responseInfo());
 
-        $transport->request(TransportInterface::METHOD_GET, 'http://www.php.net', ['Accept-Charset' => 'utf-8']);
+        $transport->request(RequestMethodInterface::METHOD_GET, 'http://www.php.net', ['Accept-Charset' => 'utf-8']);
 
         static::assertInternalType('array', $transport->responseInfo());
         static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
@@ -109,10 +109,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function methodProvider()
     {
         return [
-            [TransportInterface::METHOD_OPTIONS, 'options', 200],
-            [TransportInterface::METHOD_HEAD, 'head', 200],
-            [TransportInterface::METHOD_GET, 'get', 200],
-            [TransportInterface::METHOD_DELETE, 'delete', 200],
+            [RequestMethodInterface::METHOD_OPTIONS, 'options', 200],
+            [RequestMethodInterface::METHOD_HEAD, 'head', 200],
+            [RequestMethodInterface::METHOD_GET, 'get', 200],
+            [RequestMethodInterface::METHOD_DELETE, 'delete', 200],
         ];
     }
 
@@ -144,9 +144,9 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function methodPayloadProvider()
     {
         return [
-            [TransportInterface::METHOD_POST, 'post', 200],
-            [TransportInterface::METHOD_PUT, 'put', 200],
-            [TransportInterface::METHOD_PATCH, 'patch', 200],
+            [RequestMethodInterface::METHOD_POST, 'post', 200],
+            [RequestMethodInterface::METHOD_PUT, 'put', 200],
+            [RequestMethodInterface::METHOD_PATCH, 'patch', 200],
         ];
     }
 }

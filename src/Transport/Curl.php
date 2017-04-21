@@ -10,6 +10,7 @@
 
 namespace Jgut\Spiral\Transport;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Jgut\Spiral\Exception\TransportException;
 use Jgut\Spiral\Option\OptionInterface;
 
@@ -135,17 +136,17 @@ class Curl extends AbstractTransport
             if (in_array(
                 $method,
                 [
-                    TransportInterface::METHOD_OPTIONS,
-                    TransportInterface::METHOD_HEAD,
-                    TransportInterface::METHOD_GET,
-                    TransportInterface::METHOD_PUT,
-                    TransportInterface::METHOD_DELETE,
+                    RequestMethodInterface::METHOD_OPTIONS,
+                    RequestMethodInterface::METHOD_HEAD,
+                    RequestMethodInterface::METHOD_GET,
+                    RequestMethodInterface::METHOD_PUT,
+                    RequestMethodInterface::METHOD_DELETE,
                 ],
                 true
             )) {
                 $parameters = null;
                 $uri .= ((strpos($uri, '?') !== false) ? '&' : '?') . http_build_query($vars, '', '&');
-            } elseif ($method !== TransportInterface::METHOD_POST || $flags['post_multipart'] !== true) {
+            } elseif ($method !== RequestMethodInterface::METHOD_POST || $flags['post_multipart'] !== true) {
                 $parameters = http_build_query($vars, '', '&');
             }
 
@@ -192,17 +193,17 @@ class Curl extends AbstractTransport
     protected function setMethod($method)
     {
         switch ($method) {
-            case TransportInterface::METHOD_HEAD:
+            case RequestMethodInterface::METHOD_HEAD:
                 curl_setopt($this->handler, CURLOPT_NOBODY, true);
                 break;
 
-            case TransportInterface::METHOD_GET:
+            case RequestMethodInterface::METHOD_GET:
                 curl_setopt($this->handler, CURLOPT_HTTPGET, true);
                 break;
 
-            case TransportInterface::METHOD_POST:
+            case RequestMethodInterface::METHOD_POST:
                 curl_setopt($this->handler, CURLOPT_POST, true);
-                curl_setopt($this->handler, CURLOPT_CUSTOMREQUEST, TransportInterface::METHOD_POST);
+                curl_setopt($this->handler, CURLOPT_CUSTOMREQUEST, RequestMethodInterface::METHOD_POST);
                 break;
 
             default:

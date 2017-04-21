@@ -28,6 +28,7 @@
         "php": "^5.5|^7.0",
         "ext-curl": "*",
         "lib-curl": "*",
+        "fig/http-message-util": "^1.0",
         "psr/http-message": "^1.0",
         "zendframework/zend-diactoros": "^1.3"
     },
@@ -53,7 +54,8 @@
     "bin": [
     ],
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "scripts": {
         "php-lint": "php -l src && php -l tests",

@@ -10,6 +10,7 @@
 
 namespace Jgut\Spiral\Transport;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Jgut\Spiral\Exception\OptionException;
 use Jgut\Spiral\Option\OptionFactory;
 use Jgut\Spiral\Option\OptionInterface;
@@ -130,7 +131,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function options($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_OPTIONS, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_OPTIONS, $uri, $headers, $vars);
     }
 
     /**
@@ -144,7 +145,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function head($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_HEAD, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_HEAD, $uri, $headers, $vars);
     }
 
     /**
@@ -158,7 +159,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function get($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_GET, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_GET, $uri, $headers, $vars);
     }
 
     /**
@@ -173,7 +174,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function post($uri, array $headers = [], array $vars = [], array $flags = [])
     {
-        return $this->request(TransportInterface::METHOD_POST, $uri, $headers, $vars, $flags);
+        return $this->request(RequestMethodInterface::METHOD_POST, $uri, $headers, $vars, $flags);
     }
 
     /**
@@ -187,7 +188,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function put($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_PUT, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_PUT, $uri, $headers, $vars);
     }
 
     /**
@@ -201,7 +202,7 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function delete($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_DELETE, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_DELETE, $uri, $headers, $vars);
     }
 
     /**
@@ -215,6 +216,6 @@ abstract class AbstractTransport implements TransportInterface
      */
     public function patch($uri, array $headers = [], array $vars = [])
     {
-        return $this->request(TransportInterface::METHOD_PATCH, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_PATCH, $uri, $headers, $vars);
     }
 }

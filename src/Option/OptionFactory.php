@@ -308,6 +308,8 @@ abstract class OptionFactory
      * @param OptionCallback $optionClass
      * @param int            $option
      *
+     * @throws OptionException
+     *
      * @return OptionCallback
      */
     protected static function configureCallback(OptionCallback $optionClass, $option)
@@ -317,7 +319,7 @@ abstract class OptionFactory
                 $optionClass->setCallback(function ($value) {
                     $value = number_format((float) $value, 1, '.', '');
 
-                    if (!preg_match('/^1.(0|1)$/', $value)) {
+                    if (!preg_match('/^1.([01])$/', $value)) {
                         throw new OptionException(sprintf('"%s" is not a valid HTTP version', $value));
                     }
 
