@@ -119,7 +119,6 @@ class Curl extends AbstractTransport
      */
     public function request($method, $uri, array $headers = [], $requestBody = null)
     {
-        $this->close();
         $this->handler = curl_init();
 
         $method = strtoupper($method);

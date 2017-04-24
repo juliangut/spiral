@@ -121,7 +121,6 @@ class Client
         }
 
         $transferInfo = $transport->responseInfo();
-        $transport->close();
 
         $responseHeaders = '';
         $responseContent = $transferResponse;
