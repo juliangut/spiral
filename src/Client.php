@@ -27,14 +27,14 @@ class Client
      *
      * @var TransportInterface
      */
-    private $transport;
+    protected $transport;
 
     /**
      * Auto close on error.
      *
      * @var bool
      */
-    private $closeOnError = true;
+    protected $closeOnError = true;
 
     /**
      * @param TransportInterface|null $transport
@@ -93,8 +93,6 @@ class Client
      *
      * @param RequestInterface  $request
      * @param ResponseInterface $response
-     * @param array             $vars
-     * @param array             $flags
      *
      * @throws TransportException
      *
@@ -102,9 +100,7 @@ class Client
      */
     public function request(
         RequestInterface $request,
-        ResponseInterface $response,
-        array $vars = [],
-        array $flags = []
+        ResponseInterface $response
     ) {
         $transport = $this->getTransport();
 
@@ -113,8 +109,7 @@ class Client
                 $request->getMethod(),
                 (string) $request->getUri(),
                 $request->getHeaders(),
-                $vars,
-                $flags
+                (string) $request->getBody()
             );
         } catch (TransportException $exception) {
             if ($this->closeOnError) {

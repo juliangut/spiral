@@ -125,13 +125,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function options($uri, array $headers = [], array $vars = [])
+    public function options($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_OPTIONS, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_OPTIONS, $uri, $headers, $requestBody);
     }
 
     /**
@@ -139,13 +139,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function head($uri, array $headers = [], array $vars = [])
+    public function head($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_HEAD, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_HEAD, $uri, $headers, $requestBody);
     }
 
     /**
@@ -153,13 +153,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function get($uri, array $headers = [], array $vars = [])
+    public function get($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_GET, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_GET, $uri, $headers, $requestBody);
     }
 
     /**
@@ -167,14 +167,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
-     * @param array  $flags
+     * @param string $requestBody
      *
      * @return string
      */
-    public function post($uri, array $headers = [], array $vars = [], array $flags = [])
+    public function post($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_POST, $uri, $headers, $vars, $flags);
+        return $this->request(RequestMethodInterface::METHOD_POST, $uri, $headers, $requestBody);
     }
 
     /**
@@ -182,13 +181,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function put($uri, array $headers = [], array $vars = [])
+    public function put($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_PUT, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_PUT, $uri, $headers, $requestBody);
     }
 
     /**
@@ -196,13 +195,13 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function delete($uri, array $headers = [], array $vars = [])
+    public function delete($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_DELETE, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_DELETE, $uri, $headers, $requestBody);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param array  $vars
+     * @param string $requestBody
      *
      * @return string
      */
-    public function patch($uri, array $headers = [], array $vars = [])
+    public function patch($uri, array $headers = [], $requestBody = null)
     {
-        return $this->request(RequestMethodInterface::METHOD_PATCH, $uri, $headers, $vars);
+        return $this->request(RequestMethodInterface::METHOD_PATCH, $uri, $headers, $requestBody);
     }
 }

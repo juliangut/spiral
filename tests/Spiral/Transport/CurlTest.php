@@ -19,6 +19,9 @@ use Jgut\Spiral\Transport\Curl;
  */
 class CurlTest extends \PHPUnit_Framework_TestCase
 {
+
+    const TESTHOST = 'http://httpbin.org';
+
     /**
      * @expectedException \Jgut\Spiral\Exception\OptionException
      */
@@ -73,7 +76,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 
         static::assertNull($transport->responseInfo());
 
-        $transport->request(RequestMethodInterface::METHOD_GET, 'http://www.php.net', ['Accept-Charset' => 'utf-8']);
+        $transport->request(RequestMethodInterface::METHOD_GET, static::TESTHOST, ['Accept-Charset' => 'utf-8']);
 
         static::assertInternalType('array', $transport->responseInfo());
         static::assertEquals(200, $transport->responseInfo(CURLINFO_HTTP_CODE));
@@ -88,14 +91,14 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider methodProvider
      */
-    public function testRequestMethods($method, $shorthand, $expectedCode)
+    public function testRequestMethods($method, $shorthand, $expectedCode, $path)
     {
         $transport = Curl::createFromDefaults();
 
-        $transport->request($method, 'http://www.php.net');
+        $transport->request($method, static::TESTHOST . $path);
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
-        $transport->{$shorthand}('http://www.php.net');
+        $transport->{$shorthand}(static::TESTHOST . $path);
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
@@ -109,10 +112,10 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function methodProvider()
     {
         return [
-            [RequestMethodInterface::METHOD_OPTIONS, 'options', 200],
-            [RequestMethodInterface::METHOD_HEAD, 'head', 200],
-            [RequestMethodInterface::METHOD_GET, 'get', 200],
-            [RequestMethodInterface::METHOD_DELETE, 'delete', 200],
+            [RequestMethodInterface::METHOD_OPTIONS, 'options', 200, '/'],
+            [RequestMethodInterface::METHOD_HEAD, 'head', 200, '/'],
+            [RequestMethodInterface::METHOD_GET, 'get', 200, '/'],
+            [RequestMethodInterface::METHOD_DELETE, 'delete', 200, '/delete'],
         ];
     }
 
@@ -123,14 +126,14 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider methodPayloadProvider
      */
-    public function testRequestWithPayload($method, $shorthand, $expectedCode)
+    public function testRequestWithPayload($method, $shorthand, $expectedCode, $path)
     {
         $transport = Curl::createFromDefaults();
 
-        $transport->request($method, 'http://www.php.net', [], ['var' => 'value']);
+        $transport->request($method, static::TESTHOST . $path, [], 'var=value');
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
-        $transport->{$shorthand}('http://www.php.net', [], ['var' => 'value']);
+        $transport->{$shorthand}(static::TESTHOST . $path, [], 'var=value');
         static::assertEquals($expectedCode, $transport->responseInfo(CURLINFO_HTTP_CODE));
 
         $transport->close();
@@ -144,9 +147,9 @@ class CurlTest extends \PHPUnit_Framework_TestCase
     public function methodPayloadProvider()
     {
         return [
-            [RequestMethodInterface::METHOD_POST, 'post', 200],
-            [RequestMethodInterface::METHOD_PUT, 'put', 200],
-            [RequestMethodInterface::METHOD_PATCH, 'patch', 200],
+            [RequestMethodInterface::METHOD_POST, 'post', 200, '/post'],
+            [RequestMethodInterface::METHOD_PUT, 'put', 200, '/put'],
+            [RequestMethodInterface::METHOD_PATCH, 'patch', 200, '/patch'],
         ];
     }
 }

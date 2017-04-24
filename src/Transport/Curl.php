@@ -117,7 +117,7 @@ class Curl extends AbstractTransport
      *
      * @throws TransportException
      */
-    public function request($method, $uri, array $headers = [], array $vars = [], array $flags = [])
+    public function request($method, $uri, array $headers = [], $requestBody = null)
     {
         $this->close();
         $this->handler = curl_init();
@@ -128,31 +128,8 @@ class Curl extends AbstractTransport
         $this->forgeOptions($this->options);
         $this->forgeHeaders($headers);
 
-        $flags = array_merge(['post_multipart' => false], $flags);
-
-        if (count($vars)) {
-            $parameters = $vars;
-
-            if (in_array(
-                $method,
-                [
-                    RequestMethodInterface::METHOD_OPTIONS,
-                    RequestMethodInterface::METHOD_HEAD,
-                    RequestMethodInterface::METHOD_GET,
-                    RequestMethodInterface::METHOD_PUT,
-                    RequestMethodInterface::METHOD_DELETE,
-                ],
-                true
-            )) {
-                $parameters = null;
-                $uri .= ((strpos($uri, '?') !== false) ? '&' : '?') . http_build_query($vars, '', '&');
-            } elseif ($method !== RequestMethodInterface::METHOD_POST || $flags['post_multipart'] !== true) {
-                $parameters = http_build_query($vars, '', '&');
-            }
-
-            if ($parameters !== null) {
-                curl_setopt($this->handler, CURLOPT_POSTFIELDS, $parameters);
-            }
+        if ($requestBody !== null && $requestBody) {
+            curl_setopt($this->handler, CURLOPT_POSTFIELDS, $requestBody);
         }
         curl_setopt($this->handler, CURLOPT_URL, $uri);
 
