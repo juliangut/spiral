@@ -74,6 +74,7 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
+     *
      * @param int|string|OptionInterface $option
      * @param mixed                      $value
      */
@@ -100,6 +101,7 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
+     *
      * @param int|string|OptionInterface $option
      */
     public function removeOption($option)
