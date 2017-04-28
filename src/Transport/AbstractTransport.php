@@ -74,8 +74,8 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
-     * @param integer|string|OptionInterface $option
-     * @param mixed $value
+     * @param int|string|OptionInterface $option
+     * @param mixed                      $value
      */
     public function hasOption($option, $value = null)
     {
@@ -100,7 +100,7 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
-     * @param integer|string|OptionInterface $option
+     * @param int|string|OptionInterface $option
      */
     public function removeOption($option)
     {
@@ -129,8 +129,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for OPTIONS cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -143,8 +143,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for HEAD cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -157,8 +157,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for GET cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -171,8 +171,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for POST cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -185,8 +185,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for PUT cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -199,8 +199,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for DELETE cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
@@ -213,8 +213,8 @@ abstract class AbstractTransport implements TransportInterface
     /**
      * Shorthand for PATCH cURL request.
      *
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string

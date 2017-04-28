@@ -18,9 +18,9 @@ interface TransportInterface
     /**
      * Perform a cURL request.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $headers
+     * @param string      $method
+     * @param string      $uri
+     * @param array       $headers
      * @param string|null $requestBody
      *
      * @return string
