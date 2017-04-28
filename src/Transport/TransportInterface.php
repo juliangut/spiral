@@ -21,7 +21,7 @@ interface TransportInterface
      * @param string $method
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */

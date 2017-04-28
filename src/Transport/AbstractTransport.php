@@ -74,6 +74,8 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
+     * @param integer|string|OptionInterface $option
+     * @param mixed $value
      */
     public function hasOption($option, $value = null)
     {
@@ -98,6 +100,7 @@ abstract class AbstractTransport implements TransportInterface
 
     /**
      * {@inheritdoc}
+     * @param integer|string|OptionInterface $option
      */
     public function removeOption($option)
     {
@@ -113,6 +116,9 @@ abstract class AbstractTransport implements TransportInterface
 
         $this->options = array_filter(
             $this->options,
+            /**
+             * @param OptionInterface $transportOption
+             */
             function ($transportOption) use ($option) {
                 /* @var OptionInterface $transportOption */
                 return !($transportOption->getOption() === $option);
@@ -125,7 +131,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -139,7 +145,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -153,7 +159,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -167,7 +173,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -181,7 +187,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -195,7 +201,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
@@ -209,7 +215,7 @@ abstract class AbstractTransport implements TransportInterface
      *
      * @param string $uri
      * @param array  $headers
-     * @param string $requestBody
+     * @param string|null $requestBody
      *
      * @return string
      */
