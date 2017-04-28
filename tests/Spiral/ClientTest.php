@@ -60,38 +60,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testRequest()
+    /**
+     * @dataProvider responseProvider
+     *
+     * @param string $responseContent
+     * @param array  $transferInfo
+     * @param string $contentRegex
+     */
+    public function testRequest($responseContent, $transferInfo, $contentRegex)
     {
-        $responseContent = <<<RESP
-HTTP/1.1 302 FOUND
-Server: nginx
-Date: Tue, 09 Feb 2016 11:54:35 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 0
-Connection: keep-alive
-Location: get
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-
-HTTP/1.1 200 OK
-Server: nginx
-Date: Tue, 09 Feb 2016 11:54:35 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 30
-Connection: keep-alive
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Credentials: true
-
-<!doctype html>
-<html>
-</html>
-RESP;
-        $transferInfo = [
-            'header_size' => 452,
-            'http_code' => 200,
-            'content_type' => 'text/html; charset=utf-8',
-        ];
-
         $transport = $this->getMockBuilder(Curl::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -116,6 +93,56 @@ RESP;
         static::assertEquals(200, $response->getStatusCode());
         static::assertEquals('nginx', $response->getHeaderLine('Server'));
         static::assertFalse($response->hasHeader('Location'));
-        static::assertEquals(1, preg_match('/^<!doctype html>/i', $response->getBody()));
+        static::assertEquals(1, preg_match($contentRegex, $response->getBody()));
+    }
+
+    public function responseProvider()
+    {
+        $emptyResponse = <<<RESP
+HTTP/1.1 302 FOUND
+Server: nginx
+Date: Tue, 09 Feb 2016 11:54:35 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Connection: keep-alive
+Location: get
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 09 Feb 2016 11:54:35 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 30
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+RESP;
+        $bodyResponse = $emptyResponse . '<!doctype html>
+<html>
+</html>
+';
+
+        return [
+            [
+                $emptyResponse,
+                [
+                    'header_size' => 451,
+                    'http_code' => 200,
+                    'content_type' => 'text/html; charset=utf-8',
+                ],
+                '/^$/'
+            ],
+            [
+                $bodyResponse,
+                [
+                    'header_size' => strlen($emptyResponse),
+                    'http_code' => 200,
+                    'content_type' => 'text/html; charset=utf-8',
+                ],
+                '/^<!doctype html>/i'
+            ],
+        ];
     }
 }
