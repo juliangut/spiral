@@ -132,7 +132,7 @@ RESP;
                     'http_code' => 200,
                     'content_type' => 'text/html; charset=utf-8',
                 ],
-                '/^$/'
+                '/^$/',
             ],
             [
                 $bodyResponse,
@@ -141,7 +141,7 @@ RESP;
                     'http_code' => 200,
                     'content_type' => 'text/html; charset=utf-8',
                 ],
-                '/^<!doctype html>/i'
+                '/^<!doctype html>/i',
             ],
         ];
     }
