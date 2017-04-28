@@ -19,7 +19,6 @@ use Jgut\Spiral\Transport\Curl;
  */
 class CurlTest extends \PHPUnit_Framework_TestCase
 {
-
     const TESTHOST = 'http://httpbin.org';
 
     /**
