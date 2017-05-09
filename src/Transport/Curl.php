@@ -171,6 +171,7 @@ class Curl extends AbstractTransport
         } else {
             $this->handler = curl_init();
         }
+
         return $this->handler;
     }
 
