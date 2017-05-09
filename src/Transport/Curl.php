@@ -151,7 +151,7 @@ class Curl extends AbstractTransport
     }
 
     /**
-     * Create or reuse existing handle
+     * Create or reuse existing handle.
      *
      * @return resource
      */
