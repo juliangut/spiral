@@ -79,8 +79,9 @@ class Curl extends AbstractTransport
         CURLOPT_UNRESTRICTED_AUTH => false,
         CURLOPT_RETURNTRANSFER    => true,
         CURLOPT_HEADER            => true,
-        CURLOPT_FORBID_REUSE      => true,
-        CURLOPT_FRESH_CONNECT     => true,
+        CURLOPT_FORBID_REUSE      => false,
+        CURLOPT_FRESH_CONNECT     => false,
+        CURLOPT_MAXCONNECTS       => 5,
     ];
 
     /**
@@ -119,7 +120,7 @@ class Curl extends AbstractTransport
      */
     public function request($method, $uri, array $headers = [], $requestBody = null)
     {
-        $this->handler = curl_init();
+        $this->resetHandler();
 
         $method = strtoupper($method);
         $this->setMethod($method);
@@ -147,6 +148,30 @@ class Curl extends AbstractTransport
         }
 
         return $response;
+    }
+
+    /**
+     * Create or reuse existing handle
+     *
+     * @return resource
+     */
+    protected function resetHandler()
+    {
+        if (is_resource($this->handler)) {
+            if ($this->hasOption(CURLOPT_FORBID_REUSE, true)
+                || $this->hasOption(CURLOPT_FRESH_CONNECT, true)
+            ) {
+                // on using CURLOPT_FRESH_CONNECT or CURLOPT_FORBID_REUSE
+                // a curl_reset() is 20-30% slower than closing and reinit
+                $this->close();
+                $this->handler = curl_init();
+            } else {
+                curl_reset($this->handler);
+            }
+        } else {
+            $this->handler = curl_init();
+        }
+        return $this->handler;
     }
 
     /**

@@ -76,6 +76,8 @@ abstract class OptionFactory
 
         'forbid-reuse'       => CURLOPT_FORBID_REUSE,
         'fresh-connect'      => CURLOPT_FRESH_CONNECT,
+
+        'max-connections'    => CURLOPT_MAXCONNECTS,
     ];
 
     /**
@@ -129,6 +131,8 @@ abstract class OptionFactory
         CURLOPT_PROXYPORT      => ['type' => 'int'],
         // Size of the buffer for each read
         CURLOPT_BUFFERSIZE     => ['type' => 'int'],
+        // The maximum amount of persistent connections
+        CURLOPT_MAXCONNECTS    => ['type' => 'int'],
 
         // String
         // Contents of the "User-Agent: " header to be used in a HTTP request
