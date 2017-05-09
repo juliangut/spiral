@@ -80,9 +80,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->expects(static::once())
             ->method('responseInfo')
             ->will(static::returnValue($transferInfo));
-        $transport
-            ->expects(static::once())
-            ->method('close');
 
         $request = new Request('', 'GET');
         $response = new Response;

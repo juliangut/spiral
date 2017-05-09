@@ -79,8 +79,9 @@ class Curl extends AbstractTransport
         CURLOPT_UNRESTRICTED_AUTH => false,
         CURLOPT_RETURNTRANSFER    => true,
         CURLOPT_HEADER            => true,
-        CURLOPT_FORBID_REUSE      => true,
-        CURLOPT_FRESH_CONNECT     => true,
+        CURLOPT_FORBID_REUSE      => false,
+        CURLOPT_FRESH_CONNECT     => false,
+        CURLOPT_MAXCONNECTS       => 5,
     ];
 
     /**
@@ -117,10 +118,9 @@ class Curl extends AbstractTransport
      *
      * @throws TransportException
      */
-    public function request($method, $uri, array $headers = [], array $vars = [], array $flags = [])
+    public function request($method, $uri, array $headers = [], $requestBody = null)
     {
-        $this->close();
-        $this->handler = curl_init();
+        $this->resetHandler();
 
         $method = strtoupper($method);
         $this->setMethod($method);
@@ -128,31 +128,8 @@ class Curl extends AbstractTransport
         $this->forgeOptions($this->options);
         $this->forgeHeaders($headers);
 
-        $flags = array_merge(['post_multipart' => false], $flags);
-
-        if (count($vars)) {
-            $parameters = $vars;
-
-            if (in_array(
-                $method,
-                [
-                    RequestMethodInterface::METHOD_OPTIONS,
-                    RequestMethodInterface::METHOD_HEAD,
-                    RequestMethodInterface::METHOD_GET,
-                    RequestMethodInterface::METHOD_PUT,
-                    RequestMethodInterface::METHOD_DELETE,
-                ],
-                true
-            )) {
-                $parameters = null;
-                $uri .= ((strpos($uri, '?') !== false) ? '&' : '?') . http_build_query($vars, '', '&');
-            } elseif ($method !== RequestMethodInterface::METHOD_POST || $flags['post_multipart'] !== true) {
-                $parameters = http_build_query($vars, '', '&');
-            }
-
-            if ($parameters !== null) {
-                curl_setopt($this->handler, CURLOPT_POSTFIELDS, $parameters);
-            }
+        if ($requestBody !== null && $requestBody) {
+            curl_setopt($this->handler, CURLOPT_POSTFIELDS, $requestBody);
         }
         curl_setopt($this->handler, CURLOPT_URL, $uri);
 
@@ -171,6 +148,31 @@ class Curl extends AbstractTransport
         }
 
         return $response;
+    }
+
+    /**
+     * Create or reuse existing handle.
+     *
+     * @return resource
+     */
+    protected function resetHandler()
+    {
+        if (is_resource($this->handler)) {
+            if ($this->hasOption(CURLOPT_FORBID_REUSE, true)
+                || $this->hasOption(CURLOPT_FRESH_CONNECT, true)
+            ) {
+                // on using CURLOPT_FRESH_CONNECT or CURLOPT_FORBID_REUSE
+                // a curl_reset() is 20-30% slower than closing and reinit
+                $this->close();
+                $this->handler = curl_init();
+            } else {
+                curl_reset($this->handler);
+            }
+        } else {
+            $this->handler = curl_init();
+        }
+
+        return $this->handler;
     }
 
     /**

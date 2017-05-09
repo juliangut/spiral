@@ -18,15 +18,14 @@ interface TransportInterface
     /**
      * Perform a cURL request.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $headers
-     * @param array  $vars
-     * @param array  $flags
+     * @param string      $method
+     * @param string      $uri
+     * @param array       $headers
+     * @param string|null $requestBody
      *
      * @return string
      */
-    public function request($method, $uri, array $headers = [], array $vars = [], array $flags = []);
+    public function request($method, $uri, array $headers = [], $requestBody = null);
 
     /**
      * Retrieve response information.
