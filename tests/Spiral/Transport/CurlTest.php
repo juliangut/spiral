@@ -151,4 +151,24 @@ class CurlTest extends \PHPUnit_Framework_TestCase
             [RequestMethodInterface::METHOD_PATCH, 'patch', 200, '/patch'],
         ];
     }
+
+    /**
+     *
+     */
+    public function testReuseHandle()
+    {
+        $transport = Curl::createFromDefaults();
+
+        $transport->request(RequestMethodInterface::METHOD_GET, static::TESTHOST . '/');
+        static::assertEquals(1, $transport->responseInfo(CURLINFO_NUM_CONNECTS));
+
+        // A second request should reuse the existing connection
+        $transport->request(RequestMethodInterface::METHOD_GET, static::TESTHOST . '/');
+        static::assertEquals(0, $transport->responseInfo(CURLINFO_NUM_CONNECTS));
+
+        // Using the CURLOPT_FRESH_CONNECT should open a new connection
+        $transport->setOption(CURLOPT_FRESH_CONNECT, true);
+        $transport->request(RequestMethodInterface::METHOD_GET, static::TESTHOST . '/');
+        static::assertEquals(1, $transport->responseInfo(CURLINFO_NUM_CONNECTS));
+    }
 }
